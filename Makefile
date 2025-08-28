@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -O2 -Iinclude
+CFLAGS = -Wall -O2 -Iinclude -Wno-format-truncation
 
-SRC = src/native.c src/main.c src/lexer.c src/parser.c src/statements.c src/oop/class.c
+SRC = src/native.c src/main.c src/lexer.c src/parser.c src/statements.c src/string_ops.c src/oop/class.c
 OBJ = $(patsubst src/%.c,obj/%.o,$(SRC))
 
 .PHONY: all clean test examples

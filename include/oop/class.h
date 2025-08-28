@@ -34,6 +34,7 @@ typedef struct JawaMethod {
     char params[256];
     char body[2048];
     bool is_private;
+    bool is_constructor;
     struct JawaMethod *next;
 } JawaMethod;
 
@@ -61,11 +62,14 @@ JawaClass* class_create(const char *name);
 void class_add_property(JawaClass *cls, const char *name, PropertyType type, bool is_private);
 void class_add_method(JawaClass *cls, const char *name, const char *return_type, 
                      const char *params, const char *body, bool is_private);
+void class_add_constructor(JawaClass *cls, const char *params, const char *body);
 JawaClass* class_find(const char *name);
 void class_set_parent(JawaClass *cls, JawaClass *parent);
 
 JawaObject* object_create(JawaClass *cls);
 void object_destroy(JawaObject *obj);
+void* object_get_property(JawaObject *obj, const char *name);
+void object_set_property(JawaObject *obj, const char *name, void *value);
 
 // Code generation
 void generate_class_c_code(FILE *out, JawaClass *cls);

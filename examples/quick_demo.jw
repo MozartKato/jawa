@@ -1,0 +1,33 @@
+# Quick Demo - Jawa Programming Language
+# Showcasing core features in a concise format
+
+cithak("🌟 JAWA PROGRAMMING LANGUAGE - QUICK DEMO 🌟")
+cithak("")
+
+# 1. Dual Language Strings
+owahi bahasa = "Indonesia"
+owahi translated = bahasa.ganti("Indonesia", "Jawa").menyang_gedhe()
+cithak("Language transition: " + bahasa + " → " + translated)
+
+# 2. Array Processing
+owahi cities = "Jakarta,Surabaya,Yogyakarta,Semarang"
+owahi city_list = cities.pisah(",")
+cithak("Cities in Java (" + city_list.dawane + " total)")
+cithak("  Data: " + cities)
+
+# 3. Smart Conditionals
+owahi population = 15000000
+yen (population > 10000000) {
+    cithak("Megacity detected! Population: " + population)
+} liyane {
+    cithak("Regular city. Population: " + population)
+}
+
+# 4. Data Processing
+owahi sensor_data = "temp:25,humidity:60,pressure:1013"
+owahi readings = sensor_data.split(",")
+cithak("Sensor readings (" + readings.dawane + " items):")
+cithak("  Raw data: " + sensor_data)
+
+cithak("")
+cithak("✨ Traditional meets Modern - Jawa Programming! ✨")

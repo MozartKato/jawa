@@ -1,0 +1,184 @@
+# Jawa Programming Language - Core Features Demo
+# Showcasing all WORKING features (tested and verified)
+
+cithak("🌟 JAWA v0.25 - WORKING FEATURES DEMO 🌟")
+cithak("")
+
+# ====== 1. VARIABLES AND TYPES ======
+cithak("1. Variables and Basic Types:")
+owahi name = "Jawa Programming"
+owahi version = 25
+owahi active = bener
+owahi beta = salah
+
+cithak("  Project: " + name)
+cithak("  Version: 0." + version)
+cithak("  Status Active: " + active)
+cithak("  Beta Mode: " + beta)
+cithak("")
+
+# ====== 2. STRING OPERATIONS (DUAL LANGUAGE) ======
+cithak("2. String Operations - Dual Language Support:")
+owahi sample = "Sugeng Rawuh ing Jawa Programming"
+
+# English methods
+cithak("  English methods:")
+cithak("    toUpperCase: " + sample.toUpperCase())
+cithak("    toLowerCase: " + sample.toLowerCase())
+cithak("    replace: " + sample.replace("Rawuh", "Enjing"))
+cithak("    substring: " + sample.substring(0, 12))
+
+# Javanese methods  
+cithak("  Javanese methods:")
+cithak("    menyang_gedhe: " + sample.menyang_gedhe())
+cithak("    menyang_cilik: " + sample.menyang_cilik())
+cithak("    ganti: " + sample.ganti("Programming", "Pemrograman"))
+cithak("    potong: " + sample.potong(7, 13))
+cithak("")
+
+# ====== 3. METHOD CHAINING ======
+cithak("3. Method Chaining:")
+owahi chained_en = sample.replace("Programming", "Language").toUpperCase().substring(0, 20)
+owahi chained_jw = sample.ganti("Rawuh", "Enjing").menyang_cilik().potong(0, 25)
+
+cithak("  English chain: " + chained_en)
+cithak("  Javanese chain: " + chained_jw)
+cithak("")
+
+# ====== 4. MIXED LANGUAGE USAGE ======
+cithak("4. Mixed Language Usage:")
+owahi mixed1 = "Hello World".ganti("World", "Jawa").toUpperCase()
+owahi mixed2 = "Sugeng Rawuh".replace("Rawuh", "Enjing").menyang_cilik()
+
+cithak("  Mixed 1: " + mixed1)
+cithak("  Mixed 2: " + mixed2)
+cithak("")
+
+# ====== 5. CONDITIONALS WITH JAVANESE KEYWORDS ======
+cithak("5. Control Flow:")
+owahi score = 85
+owahi user_type = "premium"
+
+yen (score >= 90) {
+    cithak("  Grade: A - Excellent!")
+} liyane yen (score >= 80) {
+    cithak("  Grade: B - Good! Score: " + score)
+} liyane yen (score >= 70) {
+    cithak("  Grade: C - Average")
+} liyane {
+    cithak("  Grade: D - Needs improvement")
+}
+
+yen (user_type == "premium" && score >= 80) {
+    cithak("  Access: Premium features unlocked")
+} liyane {
+    cithak("  Access: Standard features only")
+}
+cithak("")
+
+# ====== 6. LOOPS ======
+cithak("6. Loops and Iteration:")
+
+# For loop
+cithak("  Countdown:")
+ngulang (owahi i = 5; i >= 1; i = i - 1) {
+    cithak("    " + i + "...")
+}
+cithak("    Go!")
+
+# While loop
+cithak("  Powers of 2:")
+owahi power = 1
+owahi count = 0
+menawa (count < 6) {
+    cithak("    2^" + count + " = " + power)
+    power = power * 2
+    count = count + 1
+}
+cithak("")
+
+# ====== 7. STRING ANALYSIS ======
+cithak("7. String Analysis:")
+owahi text = "Jawa Programming Language brings Javanese culture to coding"
+owahi length = text.length
+owahi upper_version = text.toUpperCase()
+owahi has_java = salah
+
+# Check if contains "Java"
+owahi java_check = text.replace("Java", "FOUND")
+yen (java_check != text) {
+    has_java = bener
+}
+
+cithak("  Text: " + text)
+cithak("  Length: " + length + " characters")
+cithak("  Upper: " + upper_version)
+cithak("  Contains 'Java': " + has_java)
+cithak("")
+
+# ====== 8. SIMPLE ARRAYS ======
+cithak("8. Basic Arrays:")
+owahi data = "apple,banana,mango"
+owahi fruits = data.split(",")
+owahi fruits_jw = data.pisah(",")
+
+cithak("  Original: " + data)
+cithak("  English split length: " + fruits.length)
+cithak("  Javanese pisah dawane: " + fruits_jw.dawane)
+cithak("")
+
+# ====== 9. BOOLEAN LOGIC ======
+cithak("9. Boolean Logic:")
+owahi is_ready = bener
+owahi is_testing = salah
+owahi is_production = salah
+
+yen (is_ready && !is_testing) {
+    cithak("  Status: Ready for production")
+} liyane yen (is_ready && is_testing) {
+    cithak("  Status: In testing phase")  
+} liyane {
+    cithak("  Status: Not ready")
+}
+
+# Complex boolean with mixed keywords
+owahi english_bool = true
+owahi javanese_bool = bener
+yen (english_bool == javanese_bool) {
+    cithak("  Boolean compatibility: Perfect!")
+} liyane {
+    cithak("  Boolean compatibility: Issue detected")
+}
+cithak("")
+
+# ====== 10. PRACTICAL EXAMPLE ======
+cithak("10. Practical Example - Text Processing:")
+owahi message = "System Alert: High CPU usage detected at 95%"
+owahi cleaned = message.replace("Alert:", "Warning:").toUpperCase()
+owahi has_warning = salah
+
+yen (cleaned.replace("WARNING", "FOUND") != cleaned) {
+    has_warning = bener
+}
+
+cithak("  Original: " + message)
+cithak("  Processed: " + cleaned)  
+cithak("  Has Warning: " + has_warning)
+
+yen (has_warning) {
+    cithak("  Action: Alert administrator")
+} liyane {
+    cithak("  Action: No action needed")
+}
+cithak("")
+
+cithak("=== CORE FEATURES DEMO COMPLETE ===")
+cithak("")
+cithak("✅ All demonstrated features are 100% working!")
+cithak("✅ Dual language support (English + Javanese)")
+cithak("✅ String operations with method chaining")  
+cithak("✅ Control flow and boolean logic")
+cithak("✅ Loops and iteration")
+cithak("✅ Basic array operations")
+cithak("")
+cithak("🎯 Jawa Programming Language - Solid Foundation Ready! 🎯")

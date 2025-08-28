@@ -1,178 +1,429 @@
-# Jawa Programming Language v0.2
+# 🌟 Jawa Programming Language v0.25
 
-🇮🇩 **Native-Only Javanese Programming Language**
+**Menyatukan tradisi Jawa dengan pemrograman modern** • *Uniting Javanese tradition with modern programming*
 
-Jawa adalah bahasa pemrograman dengan sintaks autentik Jawa (Javanese) yang dikompilasi langsung ke native binary untuk performa maksimal - lebih cepat dari Apache untuk web development!
+![Jawa Programming](https://img.shields.io/badge/Language-Jawa-green)
+![Version](https://img.shields.io/badge/Version-0.25-blue)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
 
-## ✨ Features
+## 🌟 Features
 
-- ✅ **Native Compilation Only** - Langsung ke binary, no VM overhead
-- ✅ **Authentic Javanese Syntax** - Kata-kata asli Jawa yang murni
-- ✅ **Strong Type System** - int, double, bool, string dengan inference
-- ✅ **Complete Control Flow** - For/while loops, if/else conditionals 
-- ✅ **Object-Oriented Programming** - Class dan method support (foundation ready)
-- ✅ **Clean Architecture** - No bytecode complexity, modular structure
+### ✅ **Core Language Features**
+- **Variable Declaration**: `owahi` (var/let) with type inference
+- **Constants**: `ajek` (const) for immutable values  
+- **Print Statements**: `cithak` (print/output)
+- **Conditional Flow**: `yen`/`liyane` (if/else)
+- **Loops**: `ngulang` (for), `menawa` (while)
+- **Boolean Values**: `bener`/`salah` (true/false)
+
+### ✅ **String Operations (Dual Syntax)**
+| English Syntax | Javanese Syntax | Function |
+|---------------|----------------|-----------|
+| `.toUpperCase()` | `.menyang_gedhe()` | Convert to uppercase |
+| `.toLowerCase()` | `.menyang_cilik()` | Convert to lowercase |
+| `.split(",")` | `.pisah(",")` | Split string by delimiter |
+| `.replace(a,b)` | `.ganti(a,b)` | Replace substring |
+| `.substring(0,5)` | `.potong(0,5)` | Extract substring |
+| `.length` / `.length()` | `.dawane` | String length |
+| `concat(a,b)` | `gabung(a,b)` | Concatenate strings |
+
+### ✅ **Array Operations**
+- **Creation**: Via string splitting (`split()` / `pisah()`)
+- **Indexing**: `array[index]` syntax
+- **Length Property**: `.length` / `.dawane`
+- **Loop Integration**: Full support in `ngulang` loops
+
+### ✅ **Advanced Features**
+- **Method Chaining**: `text.replace("a","b").toUpperCase().substring(0,10)`
+- **Auto Type Conversion**: Automatic int/bool to string in concatenation
+- **String Concatenation**: `"text" + variable + "more"`
+- **Complex Expressions**: Nested operations with proper precedence
 
 ## 🚀 Quick Start
 
-### 1. Build Compiler
+### Installation
 ```bash
-make clean
+# Clone the repository
+git clone https://github.com/MozartKato/jawa
+cd jawa
+
+# Build the compiler
 make
+
+# Run an example
+./jawa build examples/complete_demo.jw demo
+./demo
 ```
-
-### 2. Coba Program Pertama
-```bash
-# Buat file hello.jw
-echo 'cithak "Hello, World!"' > hello.jw
-
-# Compile ke native binary
-./jawa build hello.jw hello
-./hello
-```
-
-## 📖 Panduan Bahasa
-
-### Variabel dan Tipe Data
-```jawa
-owahi counter: int = 0        # Variable (owahi)
-cendhak nama: string = "Jawa" # Let declaration (cendhak)
-ajek pi: double = 3.14159     # Constant (ajek)
-```
-
-### Output dengan `cithak`
-```jawa
-cithak "Hello, World!"
-cithak counter
-cithak "Hasil:", result
-```
-
-### Object-Oriented Programming (Coming Soon)
-```jawa
-bolo User {                   # Class (bolo)
-    nama: string
-    umur: int
-}
-
-gawe sapa(nama: string) {     # Function (gawe)
-    cithak "Halo", nama
-}
-```
-
-## 🛠️ Architecture & Goals
-
-**Target**: High-performance web development language with native server support
-
-### Current Status (v0.2):
-- ✅ **Native compilation only** - Bytecode mode removed for simplicity
-- ✅ **Indonesian syntax** - `owahi`, `cendhak`, `ajek` keywords
-- ✅ **Type system** - Strong typing with inference
-- ✅ **Expression parsing** - Full arithmetic and logical expressions
-- 🚧 **OOP support** - `bolo` (class) and `gawe` (function) in development
-- 🎯 **Future**: Built-in web server faster than Apache
-
-### Single Mode Architecture:
-```
-Source Code (.jw) → Native Transpiler → C Code → GCC → Binary
-```
-
-## 📁 Contoh Program
 
 ### Hello World
 ```jawa
-cithak "Hello from Jawa!"
+# Basic Hello World
+cithak("Sugeng Rawuh ing Jawa Programming!")
+
+# With variables
+owahi nama = "Dunia"
+cithak("Halo " + nama)
 ```
 
-### Calculator
+### String Operations
 ```jawa
-owahi a: int = 10
-owahi b: int = 3
+# English syntax
+owahi text = "Hello World"
+owahi upper = text.toUpperCase()
+owahi words = text.split(" ")
 
-cendhak tambah = a + b
-cendhak kali = a * b
-cendhak bagi: double = a / b
+# Javanese syntax  
+owahi teks = "Sugeng Enjing"
+owahi gedhe = teks.menyang_gedhe()
+owahi tembung = teks.pisah(" ")
 
-cithak "Penjumlahan:", tambah
-cithak "Perkalian:", kali
-cithak "Pembagian:", bagi
+# Mixed usage
+owahi hasil = text.ganti("World", "Jawa").menyang_gedhe()
+cithak(hasil)  # Output: HELLO JAWA
 ```
 
-### OOP Example (In Development)
+### Arrays and Loops
 ```jawa
-bolo Calculator {
-    owahi result: double = 0.0
-    
-    gawe add(a: double, b: double) {
-        result = a + b
-        return result
-    }
+# Array operations
+owahi data = "apel,jeruk,mangga".pisah(",")
+owahi jumlah = data.dawane
+
+# Loop through array
+ngulang (owahi i = 0; i < jumlah; i++) {
+    cithak("Buah ke-" + i + ": " + data[i])
 }
 
-owahi calc = Calculator()
-cithak calc.add(5.0, 3.0)
+# While loop
+owahi counter = 0
+menawa (counter < 3) {
+    cithak("Counter: " + counter)
+    counter = counter + 1
+}
 ```
 
-## 🎯 Development Roadmap
+### Control Flow
+```jawa
+owahi nilai = 85
 
-### Phase 1: Core Language ✅
-- [x] Native compilation
-- [x] Indonesian keywords (`owahi`, `cendhak`, `ajek`)  
-- [x] Type system with inference
-- [x] Expression parsing & arithmetic
+yen (nilai >= 90) {
+    cithak("Grade: A")
+} liyane yen (nilai >= 80) {
+    cithak("Grade: B")  
+} liyane {
+    cithak("Grade: C")
+}
 
-### Phase 2: OOP Foundation 🚧
-- [ ] `bolo` (class) declarations
-- [ ] `gawe` (function) definitions
-- [ ] Method calls and object instantiation
-- [ ] Inheritance and polymorphism
+# Boolean operations
+owahi aktif = bener
+owahi premium = salah
 
-### Phase 3: Web Server Integration 🎯
-- [ ] Built-in HTTP server
-- [ ] Request/Response handling
-- [ ] Template engine
-- [ ] Database connectivity
-- [ ] Performance optimizations
+yen (aktif && !premium) {
+    cithak("Basic user")
+}
+```
 
-## ⚠️ Current Limitations
+## 📚 Language Guide
 
-- **No control flow yet** - `menawa`, `yen`, `ngulang` tidak tersedia
-- **Basic functions only** - `gawe` masih dalam development
-- **No classes yet** - `bolo` structure sedang dikembangkan
-- **Single file compilation** - belum ada module system
+### Variables and Types
+```jawa
+# Type inference (recommended)
+owahi nama = "Jawa"           # string
+owahi umur = 25               # int
+owahi tinggi = 175.5          # double
+owahi aktif = bener           # bool
 
-## 🏗️ Build & Test
+# Explicit typing (optional)
+owahi kota: string = "Yogyakarta"
+owahi populasi: int = 400000
 
+# Constants
+ajek PI = 3.14159
+ajek APP_NAME = "Jawa Programming"
+```
+
+### String Manipulation
+```jawa
+owahi kalimat = "Jawa Programming Language"
+
+# Length
+cithak(kalimat.length())      # Method call: 25
+cithak(kalimat.dawane)        # Property access: 25
+
+# Case conversion
+cithak(kalimat.toUpperCase())     # JAWA PROGRAMMING LANGUAGE
+cithak(kalimat.menyang_cilik())   # jawa programming language
+
+# Substring
+cithak(kalimat.substring(0, 4))   # Jawa
+cithak(kalimat.potong(5, 16))     # Programming
+
+# Replace
+cithak(kalimat.replace("Programming", "Bahasa"))  # Jawa Bahasa Language
+cithak(kalimat.ganti("Language", "Modern"))       # Jawa Programming Modern
+
+# Splitting
+owahi kata = kalimat.split(" ")    # ["Jawa", "Programming", "Language"]
+owahi bagian = kalimat.pisah(" ")  # Same result with Javanese syntax
+
+# Method chaining
+owahi result = kalimat.ganti("Programming", "Modern")
+                     .menyang_gedhe()
+                     .potong(0, 10)
+cithak(result)  # JAWA MODER
+```
+
+### Array Operations
+```jawa
+# Array creation
+owahi colors = "red,green,blue".split(",")
+owahi warna = "abang,ijo,biru".pisah(",")
+
+# Array access
+cithak(colors[0])              # red
+cithak(warna[warna.dawane-1])  # biru
+
+# Array length
+cithak(colors.length)          # 3
+cithak(warna.dawane)           # 3
+
+# Array processing
+ngulang (owahi i = 0; i < colors.dawane; i++) {
+    cithak("Color " + i + ": " + colors[i])
+}
+```
+
+### Loop Constructs
+```jawa
+# For loop variations
+ngulang (owahi i = 0; i < 10; i++) {          # Standard increment
+    cithak("Count: " + i)
+}
+
+ngulang (owahi j = 0; j < 10; j = j + 2) {    # Custom increment
+    cithak("Even: " + j)
+}
+
+# While loop
+owahi x = 0
+menawa (x < 5) {
+    cithak("Value: " + x)
+    x = x + 1
+}
+```
+
+### Type Conversion
+```jawa
+# Automatic conversion in string concatenation
+owahi angka = 42
+owahi desimal = 3.14
+owahi boolean = bener
+
+cithak("Number: " + angka)     # Number: 42
+cithak("Pi: " + desimal)       # Pi: 3.14
+cithak("Status: " + boolean)   # Status: true
+
+# Complex expressions
+owahi x = 10
+owahi y = 5
+cithak("Result: " + (x + y))   # Result: 15 (auto-converted)
+```
+
+## 🎯 Examples
+
+### Basic Program
+```jawa
+# File: hello.jw
+cithak("=== Jawa Programming Demo ===")
+
+owahi nama = "Sari"
+owahi umur = 25
+owahi kota = "Yogyakarta"
+
+cithak("Nama: " + nama)
+cithak("Umur: " + umur + " tahun")
+cithak("Kota: " + kota)
+
+yen (umur >= 17) {
+    cithak("Status: Dewasa")
+} liyane {
+    cithak("Status: Anak-anak")
+}
+```
+
+### String Processing
+```jawa
+# File: text_processor.jw
+owahi input = "  Jawa Programming Language  "
+
+# Clean and process
+owahi clean = input.ganti(" ", "_")
+                   .menyang_cilik()
+                   .potong(2, input.dawane - 2)
+
+cithak("Original: '" + input + "'")
+cithak("Processed: '" + clean + "'")
+
+# Split and analyze
+owahi words = input.split(" ")
+cithak("Word count: " + words.dawane)
+
+ngulang (owahi i = 0; i < words.length; i++) {
+    yen (words[i].length > 0) {
+        cithak("Word " + i + ": " + words[i])
+    }
+}
+```
+
+### Data Processing
+```jawa
+# File: csv_processor.jw
+owahi csv_data = "name,age,city|John,25,NYC|Jane,30,LA"
+owahi rows = csv_data.pisah("|")
+owahi headers = rows[0].split(",")
+
+cithak("CSV Processing:")
+cithak("Headers: " + headers.length + " columns")
+
+ngulang (owahi row = 1; row < rows.dawane; row++) {
+    owahi data = rows[row].split(",")
+    cithak("Record " + row + ":")
+    
+    ngulang (owahi col = 0; col < headers.length; col++) {
+        cithak("  " + headers[col] + ": " + data[col])
+    }
+}
+```
+
+## 🔧 Compilation and Usage
+
+### Build System
 ```bash
-# Build compiler
-make clean
+# Build the compiler
 make
 
-# Test basic functionality
-./jawa build examples/calculator.jw test
-./test
+# Clean build files
+make clean
+
+# Build and run example
+./jawa build examples/complete_demo.jw demo
+./demo
+```
+
+### Command Line Usage
+```bash
+# Compile Jawa source to executable
+./jawa build input_file.jw output_name
 
 # Show version
 ./jawa version
+
+# Help
+./jawa
 ```
 
-## 📚 Untuk Developer
+## 📁 Project Structure
 
-### File Structure (Simplified)
 ```
 jawa/
-├── src/           
-│   ├── native.c   # C transpiler (main component)
-│   └── main.c     # CLI interface
-├── include/       # Headers (minimal)
-├── examples/      # Sample programs
-└── obj/          # Build output
+├── src/                    # Source code
+│   ├── main.c             # Main compiler entry
+│   ├── lexer.c            # Lexical analyzer
+│   ├── parser.c           # Expression parser  
+│   ├── statements.c       # Statement parser
+│   ├── native.c           # C code generation
+│   ├── string_ops.c       # String operations
+│   └── oop/               # OOP features (future)
+├── include/               # Header files
+├── examples/              # Example programs
+│   ├── complete_demo.jw   # Full feature demonstration
+│   ├── string_operations.jw # String handling examples
+│   ├── arrays_loops.jw    # Array and loop examples
+│   └── control_flow.jw    # Conditional statements
+├── Makefile              # Build configuration
+└── README.md             # This file
 ```
 
-### Adding New Features
-1. **Language constructs**: Edit parsing logic in `src/native.c`
-2. **Built-in functions**: Add to preamble in `write_preamble()`
-3. **Type system**: Extend `Ty` enum and type mapping
+## 🌐 Language Philosophy
+
+Jawa Programming Language is designed to:
+
+1. **Honor Javanese Culture**: Incorporate traditional Javanese terms and concepts
+2. **Embrace Modern Programming**: Support contemporary programming paradigms
+3. **Provide Flexibility**: Allow both English and Javanese syntax
+4. **Enable Learning**: Make programming accessible to Javanese speakers
+5. **Bridge Tradition and Innovation**: Connect cultural heritage with technology
+
+### Keyword Mapping
+
+| Concept | English | Javanese | Meaning |
+|---------|---------|----------|---------|
+| Variable | var/let | owahi | "change/transform" |
+| Constant | const | ajek | "fixed/permanent" |
+| Print | print | cithak | "print/publish" |
+| If | if | yen | "if/when" |
+| Else | else | liyane | "other/different" |
+| While | while | menawa | "when/while" |
+| For | for | ngulang | "repeat/iterate" |
+| True | true | bener | "correct/true" |
+| False | false | salah | "wrong/false" |
+| Function | function | gawe | "make/create" |
+| Class | class | bolo | "group/category" |
+
+## 🚧 Roadmap
+
+### ✅ Completed (v0.25)
+- [x] Basic syntax and keywords
+- [x] String operations (dual language)
+- [x] Array operations
+- [x] Control flow statements
+- [x] Loop constructs  
+- [x] Method chaining
+- [x] Type conversion
+- [x] Boolean operations
+
+### 🔄 In Progress
+- [ ] Function definitions (`gawe` functions)
+- [ ] Object-oriented features (`bolo` classes)
+- [ ] Error handling (`nyoba`/`cekel`)
+- [ ] Module system (`impor`/`ekspor`)
+
+### 📋 Planned (v0.3)
+- [ ] File I/O operations
+- [ ] Network operations
+- [ ] Database integration
+- [ ] Package manager
+- [ ] Standard library
+- [ ] IDE support
+
+## 🤝 Contributing
+
+We welcome contributions to Jawa Programming Language!
+
+### Areas for Contribution
+- Language feature implementation
+- Standard library functions
+- Documentation and examples
+- IDE plugins and tools
+- Community building
+
+### Development Setup
+```bash
+git clone https://github.com/MozartKato/jawa
+cd jawa
+make
+# Start coding!
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by the rich Javanese language and culture
+- Built with modern C programming practices
+- Community-driven development approach
 
 ---
 
-**Jawa Programming Language v0.2** - Native-compiled web language dengan sintaks Indonesia 🇮🇩
+**Jawa Programming Language** - *Bridging tradition with innovation* 🌟

@@ -11,7 +11,7 @@ bool is_variable_declaration(const char *line) {
 }
 
 bool is_print_statement(const char *line) {
-    return strncmp(line, "cithak", 6) == 0 && isspace((unsigned char)line[6]);
+    return (strncmp(line, "cithak", 6) == 0 && (isspace((unsigned char)line[6]) || line[6] == '('));
 }
 
 bool is_if_statement(const char *line) {
@@ -89,11 +89,49 @@ void parse_variable_declaration(const char *line, FILE *out, ParserContext *ctx)
     // Map types to C types
     const char *mapped = "double";
     Ty vty = TY_DOUBLE;
+    
     if (ctype[0]) {
         if (strcmp(ctype, "int") == 0) { mapped = "int"; vty = TY_INT; }
         else if (strcmp(ctype, "double") == 0) { mapped = "double"; vty = TY_DOUBLE; }
         else if (strcmp(ctype, "bool") == 0) { mapped = "bool"; vty = TY_BOOL; }
         else if (strcmp(ctype, "string") == 0) { mapped = "const char*"; vty = TY_STRING; }
+        else if (strcmp(ctype, "array") == 0) { mapped = "JawaArray*"; vty = TY_ARRAY; }
+    } else {
+        // Type inference when no explicit type - parse expression first
+        char ebuf[4096]; 
+        int oi = 0; 
+        Lexer L = {.p = q}; 
+        lex_next(&L); 
+        Ty expr_type = parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+        
+        if (expr_type == TY_STRING) { 
+            mapped = "const char*"; 
+            vty = TY_STRING; 
+        } else if (expr_type == TY_ARRAY) { 
+            mapped = "JawaArray*"; 
+            vty = TY_ARRAY; 
+        } else if (expr_type == TY_BOOL) { 
+            mapped = "bool"; 
+            vty = TY_BOOL; 
+        } else if (expr_type == TY_INT) { 
+            mapped = "int"; 
+            vty = TY_INT; 
+        } else {
+            // Fallback - inspect the literal value
+            if (*q == '"') {
+                mapped = "const char*"; 
+                vty = TY_STRING;
+            } else if (strstr(q, "true") == q || strstr(q, "false") == q) {
+                mapped = "bool"; 
+                vty = TY_BOOL;
+            } else if (strchr(q, '.')) {
+                mapped = "double"; 
+                vty = TY_DOUBLE;
+            } else if (isdigit(*q)) {
+                mapped = "int"; 
+                vty = TY_INT;
+            }
+        }
     }
     
     parser_add_var(ctx, name, vty);
@@ -113,7 +151,39 @@ void parse_print_statement(const char *line, FILE *out, ParserContext *ctx) {
     const char *q = line + 6; 
     while (*q && isspace((unsigned char)*q)) q++;
     
-    // Parse multiple arguments separated by comma
+    // Check if using parentheses syntax: cithak("text")
+    bool has_parens = (*q == '(');
+    if (has_parens) {
+        q++; // skip opening parenthesis
+        // Find matching closing parenthesis
+        const char *closing_paren = strrchr(q, ')');
+        if (closing_paren) {
+            // Extract content between parentheses
+            int content_len = closing_paren - q;
+            char content[1024];
+            strncpy(content, q, content_len);
+            content[content_len] = 0;
+            
+            // Parse the content as expression
+            char ebuf[4096];
+            int oi = 0;
+            ebuf[0] = 0;
+            Lexer L = {.p = content};
+            lex_next(&L);
+            Ty et = parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+            
+            if (et == TY_STRING) {
+                fprintf(out, "printf(\"%%s\\n\", %s);\n", ebuf);
+            } else if (et == TY_BOOL) {
+                fprintf(out, "printf(\"%%s\\n\", (%s) ? \"true\" : \"false\");\n", ebuf);
+            } else {
+                fprintf(out, "printf(\"%%g\\n\", (double)(%s));\n", ebuf);
+            }
+            return;
+        }
+    }
+    
+    // Original parsing for space-separated syntax: cithak "text"
     char remaining[1024];
     strncpy(remaining, q, sizeof(remaining) - 1);
     remaining[sizeof(remaining) - 1] = 0;
@@ -312,6 +382,8 @@ void parse_for_statement(const char *line, FILE *out, ParserContext *ctx) {
                 if (*var_start == ':') {
                     var_start++;
                     while (*var_start && isspace((unsigned char)*var_start)) var_start++;
+                    
+                    // Skip type name (support both English and Javanese types)
                     while (is_ident_char((unsigned char)*var_start)) var_start++;
                     while (*var_start && isspace((unsigned char)*var_start)) var_start++;
                 }
@@ -353,7 +425,7 @@ void parse_for_statement(const char *line, FILE *out, ParserContext *ctx) {
                     ebuf[0] = 0;
                     Lexer L = {.p = val_start}; 
                     lex_next(&L);
-                    Ty et = parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+                    (void)parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);  // Result not needed, cast to void
                     
                     // Auto-declare as int for loop variables
                     parser_add_var(ctx, var_name, TY_INT);
@@ -385,26 +457,38 @@ void parse_for_statement(const char *line, FILE *out, ParserContext *ctx) {
         char *incr_start = semi2 + 1;
         while (*incr_start && isspace((unsigned char)*incr_start)) incr_start++;
         if (strlen(incr_start) > 0) {
-            char *eq = strchr(incr_start, '=');
-            if (eq) {
-                *eq = 0;
-                char *var_name = incr_start;
-                while (*var_name && isspace((unsigned char)*var_name)) var_name++;
-                char *var_end = eq - 1;
-                while (var_end > var_name && isspace((unsigned char)*var_end)) *var_end-- = 0;
-                
-                char *val_start = eq + 1;
-                while (*val_start && isspace((unsigned char)*val_start)) val_start++;
-                
-                char ebuf[1024]; 
-                int oi = 0; 
-                ebuf[0] = 0;
-                Lexer L = {.p = val_start}; 
-                lex_next(&L);
-                Ty et = parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
-                (void)et;
-                
-                fprintf(out, "%s = %s", var_name, ebuf);
+            // Check for i++ pattern
+            if (strstr(incr_start, "++")) {
+                char var_name[128];
+                int ni = 0;
+                while (is_ident_char((unsigned char)*incr_start) && ni < 127) {
+                    var_name[ni++] = *incr_start++;
+                }
+                var_name[ni] = 0;
+                fprintf(out, "%s++", var_name);
+            } else {
+                // Handle assignment format like i = i + 1
+                char *eq = strchr(incr_start, '=');
+                if (eq) {
+                    *eq = 0;
+                    char *var_name = incr_start;
+                    while (*var_name && isspace((unsigned char)*var_name)) var_name++;
+                    char *var_end = eq - 1;
+                    while (var_end > var_name && isspace((unsigned char)*var_end)) *var_end-- = 0;
+                    
+                    char *val_start = eq + 1;
+                    while (*val_start && isspace((unsigned char)*val_start)) val_start++;
+                    
+                    char ebuf[1024]; 
+                    int oi = 0; 
+                    ebuf[0] = 0;
+                    Lexer L = {.p = val_start}; 
+                    lex_next(&L);
+                    Ty et = parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+                    (void)et;
+                    
+                    fprintf(out, "%s = %s", var_name, ebuf);
+                }
             }
         }
     }

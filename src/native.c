@@ -10,7 +10,43 @@
 #include "oop/class.h"
 
 static void write_preamble(FILE *c) {
-    fputs("#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n\n", c);
+    fputs("#include <stdio.h>\n#include <stdint.h>\n#include <stdbool.h>\n", c);
+    fputs("#include <string.h>\n#include <stdlib.h>\n#include <ctype.h>\n\n", c);
+    
+    // Add string helper function
+    fputs("// String helper functions\n", c);
+    fputs("char* str_dup(const char* s) {\n", c);
+    fputs("    if (!s) return NULL;\n", c);
+    fputs("    int len = strlen(s);\n", c);
+    fputs("    char* result = malloc(len + 1);\n", c);
+    fputs("    strcpy(result, s);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add global variable for split operations  
+    fputs("int temp_count = 0;\n", c);
+    fputs("int debug_split_count = 0;\n\n", c);
+    
+    // Add string function prototypes
+    fputs("// Built-in string functions\n", c);
+    fputs("char* string_toUpperCase(const char* str);\n", c);
+    fputs("char* string_toLowerCase(const char* str);\n", c);
+    fputs("int string_length(const char* str);\n", c);
+    fputs("char* string_substring(const char* str, int start, int end);\n", c);
+    fputs("char* string_replace(const char* str, const char* old_str, const char* new_str);\n", c);
+    fputs("int string_indexOf(const char* str, const char* search);\n", c);
+    fputs("char* string_concat(const char* a, const char* b);\n", c);
+    fputs("char** string_split(const char* str, const char* delimiter, int* count);\n", c);
+    fputs("char* int_to_string(int value);\n", c);
+    fputs("char* double_to_string(double value);\n\n", c);
+    
+    // Add array function prototypes
+    fputs("// Built-in array functions\n", c);
+    fputs("typedef struct { char** data; int size; int capacity; } JawaArray;\n", c);
+    fputs("JawaArray* create_array_literal(...);\n", c);
+    fputs("JawaArray* create_array_literal_from_split(char** elements, int count);\n", c);
+    fputs("char* array_get_string(JawaArray* arr, int index);\n", c);
+    fputs("int array_get_length(JawaArray* arr);\n\n", c);
 }
 
 static void skip_class_block(FILE *in, char *line, size_t line_size) {
@@ -219,6 +255,128 @@ int build_native(const char *srcPath, const char *outPath) {
     ParserContext ctx;
     parser_init(&ctx);
     parse_main_program(in, c, &ctx);
+    
+    // Add string function implementations
+    fputs("\n// String function implementations\n", c);
+    fputs("char* string_toUpperCase(const char* str) {\n", c);
+    fputs("    if (!str) return NULL;\n", c);
+    fputs("    int len = strlen(str);\n", c);
+    fputs("    char* result = malloc(len + 1);\n", c);
+    fputs("    for (int i = 0; i < len; i++) {\n", c);
+    fputs("        result[i] = toupper(str[i]);\n", c);
+    fputs("    }\n", c);
+    fputs("    result[len] = 0;\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("char* string_toLowerCase(const char* str) {\n", c);
+    fputs("    if (!str) return NULL;\n", c);
+    fputs("    int len = strlen(str);\n", c);
+    fputs("    char* result = malloc(len + 1);\n", c);
+    fputs("    for (int i = 0; i < len; i++) {\n", c);
+    fputs("        result[i] = tolower(str[i]);\n", c);
+    fputs("    }\n", c);
+    fputs("    result[len] = 0;\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("int string_length(const char* str) {\n", c);
+    fputs("    return str ? strlen(str) : 0;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("char* string_substring(const char* str, int start, int end) {\n", c);
+    fputs("    if (!str) return NULL;\n", c);
+    fputs("    int len = strlen(str);\n", c);
+    fputs("    if (start < 0) start = 0;\n", c);
+    fputs("    if (end > len) end = len;\n", c);
+    fputs("    if (start >= end) return str_dup(\"\");\n", c);
+    fputs("    int result_len = end - start;\n", c);
+    fputs("    char* result = malloc(result_len + 1);\n", c);
+    fputs("    strncpy(result, str + start, result_len);\n", c);
+    fputs("    result[result_len] = 0;\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("char* string_replace(const char* str, const char* old_str, const char* new_str) {\n", c);
+    fputs("    if (!str || !old_str || !new_str) return str_dup(str ? str : \"\");\n", c);
+    fputs("    char* pos = strstr(str, old_str);\n", c);
+    fputs("    if (!pos) return str_dup(str);\n", c);
+    fputs("    int old_len = strlen(old_str);\n", c);
+    fputs("    int new_len = strlen(new_str);\n", c);
+    fputs("    int str_len = strlen(str);\n", c);
+    fputs("    char* result = malloc(str_len - old_len + new_len + 1);\n", c);
+    fputs("    int prefix_len = pos - str;\n", c);
+    fputs("    strncpy(result, str, prefix_len);\n", c);
+    fputs("    strcpy(result + prefix_len, new_str);\n", c);
+    fputs("    strcpy(result + prefix_len + new_len, pos + old_len);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("char* string_concat(const char* a, const char* b) {\n", c);
+    fputs("    if (!a) a = \"\";\n", c);
+    fputs("    if (!b) b = \"\";\n", c);
+    fputs("    int len_a = strlen(a);\n", c);
+    fputs("    int len_b = strlen(b);\n", c);
+    fputs("    char* result = malloc(len_a + len_b + 1);\n", c);
+    fputs("    strcpy(result, a);\n", c);
+    fputs("    strcat(result, b);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add int_to_string implementation
+    fputs("char* int_to_string(int value) {\n", c);
+    fputs("    char* result = malloc(32);\n", c);
+    fputs("    sprintf(result, \"%d\", value);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add double_to_string implementation  
+    fputs("char* double_to_string(double value) {\n", c);
+    fputs("    char* result = malloc(32);\n", c);
+    fputs("    sprintf(result, \"%.2f\", value);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add string_split implementation
+    fputs("char** string_split(const char* str, const char* delimiter, int* count) {\n", c);
+    fputs("    if (!str || !delimiter) { *count = 0; return NULL; }\n", c);
+    fputs("    char* str_copy = str_dup(str);\n", c);
+    fputs("    char** result = malloc(100 * sizeof(char*));\n", c);
+    fputs("    *count = 0;\n", c);
+    fputs("    char* token = strtok(str_copy, delimiter);\n", c);
+    fputs("    while (token != NULL && *count < 100) {\n", c);
+    fputs("        result[*count] = str_dup(token);\n", c);
+    fputs("        (*count)++;\n", c);
+    fputs("        token = strtok(NULL, delimiter);\n", c);
+    fputs("    }\n", c);
+    fputs("    free(str_copy);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add array functions
+    fputs("JawaArray* create_array_literal_from_split(char** elements, int count) {\n", c);
+    fputs("    if (!elements || count <= 0) {\n", c);
+    fputs("        JawaArray* empty = malloc(sizeof(JawaArray));\n", c);
+    fputs("        empty->data = NULL;\n", c);
+    fputs("        empty->size = 0;\n", c);
+    fputs("        empty->capacity = 0;\n", c);
+    fputs("        return empty;\n", c);
+    fputs("    }\n", c);
+    fputs("    JawaArray* arr = malloc(sizeof(JawaArray));\n", c);
+    fputs("    arr->data = elements;\n", c);
+    fputs("    arr->size = count;\n", c);
+    fputs("    arr->capacity = count;\n", c);
+    fputs("    return arr;\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("char* array_get_string(JawaArray* arr, int index) {\n", c);
+    fputs("    if (!arr || index < 0 || index >= arr->size) return \"\";\n", c);
+    fputs("    return arr->data[index];\n", c);
+    fputs("}\n\n", c);
+    
+    fputs("int array_get_length(JawaArray* arr) {\n", c);
+    fputs("    return arr ? arr->size : 0;\n", c);
+    fputs("}\n\n", c);
     
     fclose(in); 
     fclose(c);

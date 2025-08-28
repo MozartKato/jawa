@@ -1,0 +1,32 @@
+# Test localized string operations
+cithak("=== TEST LOCALIZATION JAWA ===")
+
+# Test Javanese method names
+owahi teks = "Halo Dunia"
+owahi gedhe = teks.menyang_gedhe()
+owahi cilik = teks.menyang_cilik()
+
+cithak("Original: " + teks)
+cithak("Gedhe: " + gedhe)
+cithak("Cilik: " + cilik)
+
+# Test split dengan Javanese
+owahi kalimat = "apel,jeruk,mangga"
+owahi buah_buahan = kalimat.pisah(",")
+cithak("Hasil pisah:")
+ngulang (owahi i = 0; i < buah_buahan.dawane; i++) {
+    cithak(" - " + buah_buahan[i])
+}
+
+# Test Javanese boolean
+owahi iya = bener
+owahi ora = salah
+cithak("Bener: " + iya)
+cithak("Salah: " + ora)
+
+# Test replace dengan Javanese
+owahi teks_ganti = teks.ganti("Halo", "Sugeng")
+cithak("Diganti: " + teks_ganti)
+
+# Test potong (substring)
+cithak("Dipotong (0,4): " + teks.potong(0, 4))

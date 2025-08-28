@@ -6,10 +6,11 @@
 // Token types
 typedef enum {
     T_EOF=0, T_IDENT, T_INT, T_DOUBLE, T_STRING, T_TRUE, T_FALSE,
-    T_LPAREN, T_RPAREN,
+    T_LPAREN, T_RPAREN, T_LBRACKET, T_RBRACKET, T_LBRACE, T_RBRACE,
     T_PLUS, T_MINUS, T_STAR, T_SLASH, T_PERCENT,
     T_LT, T_GT, T_LE, T_GE, T_EQ, T_NE,
-    T_AND, T_OR, T_NOT
+    T_AND, T_OR, T_NOT,
+    T_DOT, T_COMMA, T_COLON, T_SEMICOLON
 } TokKind;
 
 typedef struct { 

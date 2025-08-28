@@ -31,8 +31,8 @@ void lex_next(Lexer *L) {
         }
         t.lex[n] = 0;
         
-        if (strcmp(t.lex, "true") == 0 || strcmp(t.lex, "bener") == 0) t.kind = T_TRUE;
-        else if (strcmp(t.lex, "false") == 0 || strcmp(t.lex, "salah") == 0) t.kind = T_FALSE;
+        if (strcmp(t.lex, "true") == 0) t.kind = T_TRUE;
+        else if (strcmp(t.lex, "false") == 0) t.kind = T_FALSE;
         else t.kind = T_IDENT;
         
     } else if (isdigit((unsigned char)c) || (c=='.' && isdigit((unsigned char)p[1]))) {

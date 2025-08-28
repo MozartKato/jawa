@@ -1,0 +1,113 @@
+# String Operations Examples - Jawa Programming Language
+# Demonstrates all string manipulation features
+
+cithak("=== STRING OPERATIONS EXAMPLES ===")
+
+# ====== BASIC STRING OPERATIONS ======
+owahi text = "Jawa Programming Language"
+
+# Length operations (both syntaxes)
+cithak("Length examples:")
+cithak("  English syntax: " + text.length())
+cithak("  Javanese property: " + text.dawane)
+cithak("  Javanese method: " + text.dawane)
+
+# Case conversion
+cithak("Case conversion:")  
+cithak("  Original: " + text)
+cithak("  toUpperCase(): " + text.toUpperCase())
+cithak("  menyang_gedhe(): " + text.menyang_gedhe())
+cithak("  toLowerCase(): " + text.toLowerCase()) 
+cithak("  menyang_cilik(): " + text.menyang_cilik())
+
+# ====== SUBSTRING OPERATIONS ======
+cithak("Substring operations:")
+owahi sample = "Sugeng Rawuh ing Jawa"
+
+cithak("  Original: " + sample)
+cithak("  substring(0,6): " + sample.substring(0, 6))
+cithak("  potong(7,12): " + sample.potong(7, 12))
+cithak("  potong(13,-1): " + sample.potong(13, sample.dawane))
+
+# ====== SEARCH AND REPLACE ======
+cithak("Search and replace:")
+owahi kalimat = "Bahasa Jawa adalah bahasa tradisional"
+
+cithak("  Original: " + kalimat)
+cithak("  replace('Jawa','Programming'): " + kalimat.replace("Jawa", "Programming"))
+cithak("  ganti('bahasa','language'): " + kalimat.ganti("bahasa", "language"))
+cithak("  ganti('adalah','is'): " + kalimat.ganti("adalah", "is"))
+
+# ====== STRING SPLITTING ======
+cithak("String splitting:")
+owahi csv_data = "nama,umur,kota,pekerjaan"
+owahi daftar_buah = "mangga;jeruk;apel;pisang"
+
+cithak("  CSV data: " + csv_data)
+owahi kolom = csv_data.split(",")
+cithak("  split(',') results:")
+ngulang (owahi i = 0; i < kolom.dawane; i++) {
+    cithak("    [" + i + "] " + kolom[i])
+}
+
+cithak("  Fruit list: " + daftar_buah)
+owahi buah = daftar_buah.pisah(";")
+cithak("  pisah(';') results:")
+ngulang (owahi j = 0; j < buah.length; j++) {
+    cithak("    [" + j + "] " + buah[j])
+}
+
+# ====== METHOD CHAINING ======
+cithak("Method chaining examples:")
+owahi messy_text = "  JAWA programming LANGUAGE  "
+
+cithak("  Original: '" + messy_text + "'")
+
+owahi clean1 = messy_text.toLowerCase().replace("programming", "bahasa")
+cithak("  toLowerCase().replace(): '" + clean1 + "'")
+
+owahi clean2 = messy_text.menyang_cilik().ganti("language", "pemrograman").potong(2, 20)
+cithak("  menyang_cilik().ganti().potong(): '" + clean2 + "'")
+
+# Complex chaining
+owahi complex_chain = "hello world test".toUpperCase().replace("WORLD", "JAWA").substring(0, 10)
+cithak("  Complex: '" + complex_chain + "'")
+
+# ====== STRING CONCATENATION VARIANTS ======
+cithak("String concatenation:")
+owahi nama = "Jawa"
+owahi versi = 25
+owahi aktif = bener
+
+cithak("  Simple: " + nama + " v0." + versi)
+cithak("  With boolean: " + nama + " is active: " + aktif)
+cithak("  Mixed types: " + "Version " + versi + " status: " + aktif)
+
+# ====== REAL-WORLD EXAMPLES ======
+cithak("Real-world string processing:")
+
+# Email processing
+owahi email = "user@example.com"
+owahi email_parts = email.split("@")
+cithak("  Email: " + email)
+cithak("  Username: " + email_parts[0])
+cithak("  Domain: " + email_parts[1])
+
+# Path processing
+owahi file_path = "/home/user/documents/file.txt"
+owahi path_segments = file_path.split("/")
+owahi filename = path_segments[path_segments.dawane - 1]
+owahi file_parts = filename.pisah(".")
+
+cithak("  Path: " + file_path)
+cithak("  Filename: " + filename)
+cithak("  Name: " + file_parts[0])
+cithak("  Extension: " + file_parts[1])
+
+# Text formatting
+owahi template = "Hello {{name}}, welcome to {{place}}!"
+owahi formatted = template.ganti("{{name}}", "Sari").ganti("{{place}}", "Jawa Programming")
+cithak("  Template: " + template)
+cithak("  Formatted: " + formatted)
+
+cithak("=== STRING EXAMPLES COMPLETE ===")

@@ -1,0 +1,57 @@
+# Language Comparison Demo
+# Showing English vs Javanese syntax side by side
+
+cithak("=== DUAL LANGUAGE SYNTAX COMPARISON ===")
+cithak("")
+
+# String Operations Comparison
+cithak("STRING OPERATIONS:")
+owahi text = "Jawa Programming Language"
+
+# English methods
+owahi result1 = text.toUpperCase()
+owahi result2 = text.toLowerCase() 
+owahi result3 = text.replace("Language", "Bahasa")
+owahi result4 = text.substring(0, 15)
+owahi result5 = text.split(" ")
+
+cithak("English methods:")
+cithak("  .toUpperCase() = " + result1)
+cithak("  .toLowerCase() = " + result2)
+cithak("  .replace() = " + result3)
+cithak("  .substring() = " + result4)
+cithak("  .split() length = " + result5.length)
+
+# Javanese methods
+owahi hasil1 = text.menyang_gedhe()
+owahi hasil2 = text.menyang_cilik()
+owahi hasil3 = text.ganti("Programming", "Pemrograman")
+owahi hasil4 = text.potong(5, 20)
+owahi hasil5 = text.pisah(" ")
+
+cithak("")
+cithak("Javanese methods:")
+cithak("  .menyang_gedhe() = " + hasil1)
+cithak("  .menyang_cilik() = " + hasil2)  
+cithak("  .ganti() = " + hasil3)
+cithak("  .potong() = " + hasil4)
+cithak("  .pisah() dawane = " + hasil5.dawane)
+
+cithak("")
+cithak("BOOLEAN VALUES:")
+owahi english_true = true
+owahi english_false = false
+owahi javanese_true = bener
+owahi javanese_false = salah
+
+cithak("English: true = " + english_true + ", false = " + english_false)
+cithak("Javanese: bener = " + javanese_true + ", salah = " + javanese_false)
+
+cithak("")
+cithak("MIXED USAGE:")
+# You can mix English and Javanese in the same expression!
+owahi mixed = "Hello World".ganti("World", "Jawa").toUpperCase()
+cithak("Mixed syntax result: " + mixed)
+
+cithak("")
+cithak("🌏 One language, two cultural expressions! 🌏")

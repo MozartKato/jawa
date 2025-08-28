@@ -1,0 +1,39 @@
+# Compiled binaries and objects
+*.o
+*.out
+obj/
+build/
+
+# Temporary files
+*~
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Generated C files (keep only source .c in src/)
+*.c
+!src/*.c
+!jawa.c
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Test outputs
+test_output/
+debug_output/
+
+# Backup files
+*_backup.*
+
+examples/archived
+jawa
