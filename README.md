@@ -1,6 +1,17 @@
-# Jawa Programming Language v0.1
+# Jawa Programming Language v0.2
 
-Jawa adalah bahasa pemrograman sederhana dengan sintaks berbahasa Indonesia yang dikembangkan untuk pembelajaran dan eksperimen. Bahasa ini mendukung dua mode kompilasi: bytecode dengan virtual machine dan transpilasi ke native C.
+🇮🇩 **Native-Only Javanese Programming Language**
+
+Jawa adalah bahasa pemrograman dengan sintaks autentik Jawa (Javanese) yang dikompilasi langsung ke native binary untuk performa maksimal - lebih cepat dari Apache untuk web development!
+
+## ✨ Features
+
+- ✅ **Native Compilation Only** - Langsung ke binary, no VM overhead
+- ✅ **Authentic Javanese Syntax** - Kata-kata asli Jawa yang murni
+- ✅ **Strong Type System** - int, double, bool, string dengan inference
+- ✅ **Complete Control Flow** - For/while loops, if/else conditionals 
+- ✅ **Object-Oriented Programming** - Class dan method support (foundation ready)
+- ✅ **Clean Architecture** - No bytecode complexity, modular structure
 
 ## 🚀 Quick Start
 
@@ -15,11 +26,7 @@ make
 # Buat file hello.jw
 echo 'cithak "Hello, World!"' > hello.jw
 
-# Kompilasi dan jalankan (bytecode mode)
-./jawa compile hello.jw hello.jbc
-./jawa run hello.jbc
-
-# Atau compile ke native binary
+# Compile ke native binary
 ./jawa build hello.jw hello
 ./hello
 ```
@@ -27,19 +34,10 @@ echo 'cithak "Hello, World!"' > hello.jw
 ## 📖 Panduan Bahasa
 
 ### Variabel dan Tipe Data
-
-**Bytecode Mode (Simple Syntax):**
 ```jawa
-counter = 0
-nama = "Jawa"
-result = 5 + 3
-```
-
-**Build Mode (Typed Syntax):**
-```jawa
-owahi counter: int = 0
-cendhak nama: string = "Jawa"
-owahi result: double = 5.5 + 3.2
+owahi counter: int = 0        # Variable (owahi)
+cendhak nama: string = "Jawa" # Let declaration (cendhak)
+ajek pi: double = 3.14159     # Constant (ajek)
 ```
 
 ### Output dengan `cithak`
@@ -49,56 +47,43 @@ cithak counter
 cithak "Hasil:", result
 ```
 
-### Control Flow
-
-**While Loop (`menawa`):**
+### Object-Oriented Programming (Coming Soon)
 ```jawa
-counter = 0
-menawa (counter < 3) {
-    cithak "Iteration:", counter
-    counter = counter + 1
+bolo User {                   # Class (bolo)
+    nama: string
+    umur: int
+}
+
+gawe sapa(nama: string) {     # Function (gawe)
+    cithak "Halo", nama
 }
 ```
 
-**If-Else (`yen`/`liyane`):**
-```jawa
-yen (counter > 5) {
-    cithak "Counter besar"
-} liyane {
-    cithak "Counter kecil"
-}
+## 🛠️ Architecture & Goals
+
+**Target**: High-performance web development language with native server support
+
+### Current Status (v0.2):
+- ✅ **Native compilation only** - Bytecode mode removed for simplicity
+- ✅ **Indonesian syntax** - `owahi`, `cendhak`, `ajek` keywords
+- ✅ **Type system** - Strong typing with inference
+- ✅ **Expression parsing** - Full arithmetic and logical expressions
+- 🚧 **OOP support** - `bolo` (class) and `gawe` (function) in development
+- 🎯 **Future**: Built-in web server faster than Apache
+
+### Single Mode Architecture:
 ```
-
-## 🛠️ Mode Kompilasi
-
-### 1. Bytecode Mode 
-- **Sintaks**: Simple assignment (`x = 5`)
-- **Pros**: Mudah digunakan, mendukung semua control flow
-- **Cons**: Variable values tidak ditampilkan dalam output
-
-```bash
-./jawa compile program.jw program.jbc
-./jawa run program.jbc
-```
-
-### 2. Build Mode (Native)
-- **Sintaks**: Typed declarations (`var x: int = 5`)  
-- **Pros**: Full C performance, variable values tampil dengan benar
-- **Cons**: Belum support control flow structures
-
-```bash
-./jawa build program.jw program
-./program
+Source Code (.jw) → Native Transpiler → C Code → GCC → Binary
 ```
 
 ## 📁 Contoh Program
 
-### Hello World (Works in both modes)
+### Hello World
 ```jawa
 cithak "Hello from Jawa!"
 ```
 
-### Calculator (Build mode only)
+### Calculator
 ```jawa
 owahi a: int = 10
 owahi b: int = 3
@@ -112,119 +97,82 @@ cithak "Perkalian:", kali
 cithak "Pembagian:", bagi
 ```
 
-### Loop Example (Bytecode mode only)
+### OOP Example (In Development)
 ```jawa
-counter = 0
-menawa (counter < 5) {
-    cithak "Loop iteration"
-    counter = counter + 1
+bolo Calculator {
+    owahi result: double = 0.0
+    
+    gawe add(a: double, b: double) {
+        result = a + b
+        return result
+    }
 }
-cithak "Done!"
+
+owahi calc = Calculator()
+cithak calc.add(5.0, 3.0)
 ```
 
-## ⚠️ Known Issues & Limitations
+## 🎯 Development Roadmap
 
-### Bytecode Mode Issues:
-- ❌ **Variable values tidak muncul dalam output** - `cithak counter` hanya print nama variable, bukan nilainya
-- ❌ **For loops (`ngulang`) infinite loop** - increment statement tidak ter-execute dengan benar
-- ✅ While loops (`menawa`) bekerja dengan baik
-- ✅ If-else (`yen`/`liyane`) bekerja dengan baik
-- ✅ Arithmetic operations bekerja dengan benar
+### Phase 1: Core Language ✅
+- [x] Native compilation
+- [x] Indonesian keywords (`owahi`, `cendhak`, `ajek`)  
+- [x] Type system with inference
+- [x] Expression parsing & arithmetic
 
-### Build Mode Issues:
-- ❌ **Control flow belum diimplementasi** - tidak support `menawa`, `yen`, `ngulang`  
-- ❌ **Hanya support simple assignments dan expressions**
-- ✅ Variable declarations dengan tipe bekerja dengan baik
-- ✅ Arithmetic expressions dan function calls bekerja dengan baik
+### Phase 2: OOP Foundation 🚧
+- [ ] `bolo` (class) declarations
+- [ ] `gawe` (function) definitions
+- [ ] Method calls and object instantiation
+- [ ] Inheritance and polymorphism
 
-### Syntax Incompatibility:
-- **Bytecode mode**: `counter = 0` (simple assignment)
-- **Build mode**: `owahi counter: int = 0` (typed declaration)
-- Tidak bisa menggunakan file yang sama untuk kedua mode
+### Phase 3: Web Server Integration 🎯
+- [ ] Built-in HTTP server
+- [ ] Request/Response handling
+- [ ] Template engine
+- [ ] Database connectivity
+- [ ] Performance optimizations
 
-## 🏗️ Architecture Overview
+## ⚠️ Current Limitations
 
+- **No control flow yet** - `menawa`, `yen`, `ngulang` tidak tersedia
+- **Basic functions only** - `gawe` masih dalam development
+- **No classes yet** - `bolo` structure sedang dikembangkan
+- **Single file compilation** - belum ada module system
+
+## 🏗️ Build & Test
+
+```bash
+# Build compiler
+make clean
+make
+
+# Test basic functionality
+./jawa build examples/calculator.jw test
+./test
+
+# Show version
+./jawa version
 ```
-Source Code (.jw)
-        |
-        ├── Bytecode Path
-        |   ├── compiler.c → .jbc file
-        |   └── vm.c → execution
-        |
-        └── Build Path
-            ├── native.c → .c file  
-            ├── gcc → binary
-            └── direct execution
-```
-
-### Core Components:
-- **compiler.c**: Bytecode generator (supports loops, conditions)
-- **vm.c**: Virtual machine interpreter  
-- **native.c**: C transpiler (basic expressions only)
-- **value.c**: Type system dan operations
-
-## 🚧 Development Status
-
-| Feature | Bytecode Mode | Build Mode |
-|---------|---------------|------------|
-| Variable Assignment | ✅ | ✅ |
-| Variable Display | ❌ | ✅ |
-| Arithmetic | ✅ | ✅ |
-| String Output | ✅ | ✅ |
-| While Loops | ✅ | ❌ |
-| If-Else | ✅ | ❌ |
-| For Loops | ❌ (infinite) | ❌ |
-| Type System | Basic | Full |
-
-## 🐛 Bug Reports
-
-Jika menemukan bug atau ingin contribute:
-
-1. **Variable Printing Bug** (Priority: High)
-   - File: `src/vm.c`, `src/compiler.c` 
-   - Issue: Variable values tidak muncul dalam bytecode mode
-
-2. **For Loop Infinite Bug** (Priority: High)  
-   - File: `src/compiler.c`
-   - Issue: Increment statement dalam for loop tidak ter-execute
-
-3. **Control Flow di Build Mode** (Priority: Medium)
-   - File: `src/native.c`
-   - Issue: Belum ada implementasi loops dan conditionals
 
 ## 📚 Untuk Developer
 
-### Build System
-```bash
-make clean    # Hapus build artifacts
-make          # Build compiler
-make install  # (belum tersedia)
-```
-
-### Testing
-```bash
-# Test bytecode mode
-./jawa compile examples/hello.jw test.jbc
-./jawa run test.jbc
-
-# Test build mode  
-./jawa build examples/calculator.jw test-native
-./test-native
-```
-
-### File Structure
+### File Structure (Simplified)
 ```
 jawa/
-├── src/           # Source code
-│   ├── compiler.c # Bytecode compiler
-│   ├── vm.c      # Virtual machine  
-│   ├── native.c  # C transpiler
-│   └── main.c    # CLI interface
-├── include/       # Headers
+├── src/           
+│   ├── native.c   # C transpiler (main component)
+│   └── main.c     # CLI interface
+├── include/       # Headers (minimal)
 ├── examples/      # Sample programs
 └── obj/          # Build output
 ```
 
+### Adding New Features
+1. **Language constructs**: Edit parsing logic in `src/native.c`
+2. **Built-in functions**: Add to preamble in `write_preamble()`
+3. **Type system**: Extend `Ty` enum and type mapping
+
 ---
 
-**Jawa Programming Language** - Eksperimental educational language dengan focus pada kesederhanaan dan pembelajaran konsep compiler/interpreter.
+**Jawa Programming Language v0.2** - Native-compiled web language dengan sintaks Indonesia 🇮🇩

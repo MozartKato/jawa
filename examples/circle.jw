@@ -1,9 +1,0 @@
-ajek pi: double = 3.14159
-owahi radius: double = 5.0
-
-cendhak area = pi * radius * radius
-cendhak circumference = 2 * pi * radius
-
-cithak "Radius:", radius
-cithak "Area lingkaran:", area
-cithak "Keliling lingkaran:", circumference

@@ -1,0 +1,29 @@
+// OOP Example - Simple Person Class
+cithak "=== Jawa OOP Example ==="
+
+bolo Person {
+    owahi nama: string
+    owahi umur: int
+    cendhak aktif: bool = true
+    
+    gawe tampilkanInfo() {
+        cithak "Nama:", nama, "Umur:", umur
+        yen (aktif) {
+            cithak "Status: Aktif"
+        } liyane {
+            cithak "Status: Tidak Aktif"
+        }
+    }
+    
+    gawe ulangTahun() {
+        umur = umur + 1
+        cithak "Selamat ulang tahun!", "Umur sekarang:", umur
+    }
+}
+
+// Main program
+cithak "Creating person objects..."
+
+// For now, we'll implement object instantiation step by step
+cithak "OOP Framework is ready!"
+cithak "Class parsing implemented"

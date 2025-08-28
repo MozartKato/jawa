@@ -1,6 +1,0 @@
-owahi umur: int = 25
-
-cithak "Test yen bytecode:"
-yen umur >= 18 {
-    cithak "Dewasa"
-}
