@@ -37,9 +37,9 @@ result = 5 + 3
 
 **Build Mode (Typed Syntax):**
 ```jawa
-var counter: int = 0
-let nama: string = "Jawa"
-var result: double = 5.5 + 3.2
+owahi counter: int = 0
+cendhak nama: string = "Jawa"
+owahi result: double = 5.5 + 3.2
 ```
 
 ### Output dengan `cithak`
@@ -100,12 +100,12 @@ cithak "Hello from Jawa!"
 
 ### Calculator (Build mode only)
 ```jawa
-var a: int = 10
-var b: int = 3
+owahi a: int = 10
+owahi b: int = 3
 
-let tambah = a + b
-let kali = a * b
-let bagi: double = a / b
+cendhak tambah = a + b
+cendhak kali = a * b
+cendhak bagi: double = a / b
 
 cithak "Penjumlahan:", tambah
 cithak "Perkalian:", kali
@@ -139,7 +139,7 @@ cithak "Done!"
 
 ### Syntax Incompatibility:
 - **Bytecode mode**: `counter = 0` (simple assignment)
-- **Build mode**: `var counter: int = 0` (typed declaration)
+- **Build mode**: `owahi counter: int = 0` (typed declaration)
 - Tidak bisa menggunakan file yang sama untuk kedua mode
 
 ## 🏗️ Architecture Overview

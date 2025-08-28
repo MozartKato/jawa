@@ -1,9 +1,9 @@
-var a: int = 10
-var b: int = 3
+owahi a: int = 10
+owahi b: int = 3
 
-let tambah = a + b
-let kali = a * b
-let bagi: double = a / b
+cendhak tambah = a + b
+cendhak kali = a * b
+cendhak bagi: double = a / b
 
 cithak "Hasil penjumlahan:"
 cithak tambah
