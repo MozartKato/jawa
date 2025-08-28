@@ -1,4 +1,4 @@
-# Jawa Programming Language
+# Jawa Programming Language v0.1
 
 Jawa adalah bahasa pemrograman sederhana dengan sintaks berbahasa Indonesia yang dikembangkan untuk pembelajaran dan eksperimen. Bahasa ini mendukung dua mode kompilasi: bytecode dengan virtual machine dan transpilasi ke native C.
 
