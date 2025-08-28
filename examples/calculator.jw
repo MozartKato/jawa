@@ -1,0 +1,13 @@
+var a: int = 10
+var b: int = 3
+
+let tambah = a + b
+let kali = a * b
+let bagi: double = a / b
+
+cithak "Hasil penjumlahan:"
+cithak tambah
+cithak "Hasil perkalian:"
+cithak kali
+cithak "Hasil pembagian:"
+cithak bagi

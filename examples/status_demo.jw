@@ -1,0 +1,16 @@
+owahi umur: int = 25
+
+cithak "=== YANG SUDAH BEKERJA ==="
+cithak "Keyword variables: owahi, cendhak, ajek"
+cithak "Simple yen (if) tanpa liyane"
+
+yen umur >= 18 {
+    cithak "Dewasa - ini bekerja!"
+}
+
+yen umur >= 21 {
+    cithak "Boleh nyoblos - ini juga bekerja!"
+}
+
+cithak "=== YANG BELUM BEKERJA ==="
+cithak "yen...liyane (if...else) masih broken"

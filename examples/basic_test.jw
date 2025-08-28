@@ -1,0 +1,11 @@
+counter = 0
+menawa (counter < 3) {
+    cithak "Hello from Jawa!"
+    counter = counter + 1
+}
+
+ngulang (i = 0; i < 2; i = i + 1) {
+    cithak "For loop working!"
+}
+
+cithak "All loops completed successfully!"

@@ -1,0 +1,11 @@
+owahi umur: int = 20
+
+cithak "Testing yen sederhana:"
+yen umur >= 18 {
+    cithak "Dewasa"
+}
+
+owahi skor: int = 85
+yen skor >= 80 {
+    cithak "Nilai A"
+}

@@ -1,0 +1,19 @@
+owahi a: int = 10
+cendhak b: int = 5
+ajek pi: double = 3.14
+owahi aktif: bool = true
+owahi pesan: string = "Jawa Modern!"
+
+cendhak hasil = a + b * 2
+
+cithak pesan
+cithak "Nilai a:"
+cithak a
+cithak "Nilai b:"
+cithak b
+cithak "Konstanta pi:"
+cithak pi
+cithak "Status aktif:"
+cithak aktif
+cithak "Hasil kalkulasi:"
+cithak hasil

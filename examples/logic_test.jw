@@ -1,0 +1,17 @@
+var x: int = 5
+var y: int = 3
+
+cithak "Testing comparison operators:"
+cithak "x == y should be false"
+cithak "x != y should be true"  
+cithak "x > y should be true"
+cithak "x < y should be false"
+
+cithak "Testing logical operators:"
+var p: bool = true
+var q: bool = false
+
+cithak "p && q should be false"
+cithak "p || q should be true"
+cithak "!p should be false"
+cithak "!q should be true"

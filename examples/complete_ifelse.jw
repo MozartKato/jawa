@@ -1,0 +1,18 @@
+owahi skor: int = 75
+owahi umur: int = 16
+
+cithak "=== Test yen-liyane lengkap ==="
+
+yen skor >= 80 {
+    cithak "Nilai A"
+}
+liyane {
+    cithak "Nilai B atau C"
+}
+
+yen umur >= 18 {
+    cithak "Boleh nyoblos"
+}
+liyane {
+    cithak "Belum boleh nyoblos"
+}
