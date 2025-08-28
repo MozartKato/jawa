@@ -54,6 +54,10 @@ static Ty parse_eq(Lexer *L, char *out, size_t outsz, int *oi, ParserContext *ct
 static Ty parse_and(Lexer *L, char *out, size_t outsz, int *oi, ParserContext *ctx);
 
 static Ty promote_num(Ty a, Ty b, int op_div) {
+    // Always promote to double for arithmetic to prevent integer overflow
+    if (a == TY_INT && b == TY_INT) {
+        return TY_DOUBLE;  // Force double for int arithmetic to prevent overflow
+    }
     if (op_div) return TY_DOUBLE;
     if (a == TY_DOUBLE || b == TY_DOUBLE) return TY_DOUBLE;
     return TY_INT;

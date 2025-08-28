@@ -38,6 +38,7 @@ static void write_preamble(FILE *c) {
     fputs("char* string_concat(const char* a, const char* b);\n", c);
     fputs("char** string_split(const char* str, const char* delimiter, int* count);\n", c);
     fputs("char* int_to_string(int value);\n", c);
+    fputs("char* long_to_string(long long value);\n", c);
     fputs("char* double_to_string(double value);\n\n", c);
     
     // Add array function prototypes
@@ -323,17 +324,31 @@ int build_native(const char *srcPath, const char *outPath) {
     fputs("    return result;\n", c);
     fputs("}\n\n", c);
     
-    // Add int_to_string implementation
+    // Add int_to_string implementation - Enhanced for large numbers
     fputs("char* int_to_string(int value) {\n", c);
     fputs("    char* result = malloc(32);\n", c);
     fputs("    sprintf(result, \"%d\", value);\n", c);
     fputs("    return result;\n", c);
     fputs("}\n\n", c);
     
-    // Add double_to_string implementation  
+    // Add long_to_string implementation for large integers
+    fputs("char* long_to_string(long long value) {\n", c);
+    fputs("    char* result = malloc(32);\n", c);
+    fputs("    sprintf(result, \"%lld\", value);\n", c);
+    fputs("    return result;\n", c);
+    fputs("}\n\n", c);
+    
+    // Add double_to_string implementation - Enhanced  
     fputs("char* double_to_string(double value) {\n", c);
     fputs("    char* result = malloc(32);\n", c);
-    fputs("    sprintf(result, \"%.2f\", value);\n", c);
+    fputs("    // Check if it's a whole number larger than int range\n", c);
+    fputs("    if (value == (long long)value && (value > 2147483647.0 || value < -2147483648.0)) {\n", c);
+    fputs("        sprintf(result, \"%.0f\", value);  // Print as integer without decimal\n", c);
+    fputs("    } else if (value == (long long)value) {\n", c);
+    fputs("        sprintf(result, \"%.0f\", value);  // Print small integers without decimal\n", c); 
+    fputs("    } else {\n", c);
+    fputs("        sprintf(result, \"%.2f\", value);  // Print decimals normally\n", c);
+    fputs("    }\n", c);
     fputs("    return result;\n", c);
     fputs("}\n\n", c);
     

@@ -1,6 +1,7 @@
 #include "statements.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>  // Add for strtoll
 
 static int g_if_depth = 0;
 
@@ -114,8 +115,16 @@ void parse_variable_declaration(const char *line, FILE *out, ParserContext *ctx)
             mapped = "bool"; 
             vty = TY_BOOL; 
         } else if (expr_type == TY_INT) { 
-            mapped = "int"; 
-            vty = TY_INT; 
+            // Check if the integer literal is too large for int type
+            long long num_value = strtoll(q, NULL, 10);
+            if (num_value > 2147483647LL || num_value < -2147483648LL) {
+                // Integer literal too large, use double instead
+                mapped = "double"; 
+                vty = TY_DOUBLE;
+            } else {
+                mapped = "int"; 
+                vty = TY_INT; 
+            }
         } else {
             // Fallback - inspect the literal value
             if (*q == '"') {
@@ -128,8 +137,19 @@ void parse_variable_declaration(const char *line, FILE *out, ParserContext *ctx)
                 mapped = "double"; 
                 vty = TY_DOUBLE;
             } else if (isdigit(*q)) {
-                mapped = "int"; 
-                vty = TY_INT;
+                // Smart number detection - check if number is too large for int
+                long long num_value = strtoll(q, NULL, 10);
+                // Debug: fprintf(stderr, "DEBUG: Number %lld, max int: %d\n", num_value, 2147483647);
+                if (num_value > 2147483647LL || num_value < -2147483648LL) {
+                    // Number too large for int, use double for large integers
+                    mapped = "double"; 
+                    vty = TY_DOUBLE;
+                    // Debug: fprintf(stderr, "DEBUG: Using double for large number\n");
+                } else {
+                    mapped = "int"; 
+                    vty = TY_INT;
+                    // Debug: fprintf(stderr, "DEBUG: Using int for small number\n");
+                }
             }
         }
     }
