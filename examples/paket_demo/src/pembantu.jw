@@ -1,0 +1,25 @@
+// File: pembantu.jw
+// Modul pembantu untuk contoh paket
+
+// Mendefinisikan modul dengan beberapa fungsi
+var modul = {};
+
+// Informasi versi paket
+modul.VERSI = "0.1.0";
+
+// Fungsi untuk menampilkan informasi paket
+modul.tampilkanInfo = fungsi() {
+    cetak("=== Informasi Paket ===");
+    cetak("Nama: contoh-paket");
+    cetak("Versi: " + this.VERSI);
+    cetak("Status: Aktif");
+    cetak("=====================");
+};
+
+// Fungsi utilitas tambahan
+modul.formatTeks = fungsi(teks, awalan) {
+    kembalikan awalan + ": " + teks;
+};
+
+// Ekspor modul
+kembalikan modul;

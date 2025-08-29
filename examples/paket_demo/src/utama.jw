@@ -1,0 +1,26 @@
+// File: utama.jw
+// Contoh file utama untuk paket Jawa
+
+fungsi utama() {
+    cetak("Selamat datang di sistem paket Jawa!");
+    
+    // Mengimpor modul lain dari paket yang sama
+    impor "./pembantu.jw" sebagai pmb;
+    
+    // Menggunakan fungsi dari modul pembantu
+    pmb.tampilkanInfo();
+    
+    // Mengimpor paket eksternal
+    coba {
+        impor "matematika" sebagai mtk;
+        var hasil = mtk.tambah(5, 3);
+        cetak("Hasil penjumlahan: " + hasil);
+    } kecuali(e) {
+        cetak("Gagal mengimpor paket matematika: " + e);
+    }
+    
+    cetak("Demonstrasi paket selesai!");
+}
+
+// Panggil fungsi utama
+utama();

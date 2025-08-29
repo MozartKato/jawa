@@ -1,0 +1,10 @@
+cithak("Tes Penanganan Error")
+
+nyoba {
+    owahi hasil = 10 / 0
+    cithak("Hasil: " + hasil)
+} cekel(kesalahan) {
+    cithak("Error terjadi: " + kesalahan)
+} pungkasan {
+    cithak("Pembersihan...")
+}

@@ -1,0 +1,19 @@
+cithak("Tes Struktur Data")
+
+// Array dengan tipe eksplisit
+owahi angka: array<int> = [1, 2, 3, 4, 5]
+
+// Map/Dictionary
+owahi siswa: map = {
+    "nama": "Budi",
+    "umur": 15,
+    "kelas": "9A"
+}
+
+// Akses array
+cithak("Elemen ke-3: " + angka[2])
+
+// Akses map
+cithak("Nama siswa: " + siswa["nama"])
+cithak("Umur siswa: " + siswa["umur"])
+cithak("Kelas siswa: " + siswa["kelas"])

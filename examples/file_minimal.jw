@@ -1,0 +1,10 @@
+// Contoh sederhana file operations
+cithak("Tes operasi file sederhana")
+
+// Tulis file
+JawaFile* f = file_buka("test.txt", "tulis")
+file_tulis(f, "Ini adalah tes.")
+file_tutup(f)
+
+// Hapus file
+file_hapus("test.txt")

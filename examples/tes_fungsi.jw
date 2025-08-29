@@ -1,0 +1,9 @@
+cithak("Tes Fungsi")
+gawe kali(a, b) {
+    bali a * b
+}
+
+owahi x = 6
+owahi y = 7
+owahi hasil = kali(x, y)
+cithak("Hasil: " + hasil)

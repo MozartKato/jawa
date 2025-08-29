@@ -1,0 +1,15 @@
+{
+    "nama": "contoh-paket",
+    "versi": "0.1.0",
+    "deskripsi": "Contoh paket untuk bahasa pemrograman Jawa",
+    "penulis": "Pengembang Jawa",
+    "ketergantungan": {
+        "matematika": "^1.0.0",
+        "utilitas": "^0.2.0"
+    },
+    "berkas": [
+        "src/utama.jw",
+        "src/pembantu.jw"
+    ],
+    "titik_masuk": "src/utama.jw"
+}

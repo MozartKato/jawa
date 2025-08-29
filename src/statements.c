@@ -31,6 +31,14 @@ bool is_for_statement(const char *line) {
     return strncmp(line, "ngulang", 7) == 0 && isspace((unsigned char)line[7]);
 }
 
+bool is_function_definition(const char *line) {
+    return strncmp(line, "gawe ", 5) == 0;
+}
+
+bool is_return_statement(const char *line) {
+    return strncmp(line, "bali", 4) == 0;
+}
+
 bool is_assignment(const char *line) {
     char *eq_pos = strchr(line, '=');
     if (!eq_pos) return false;
@@ -551,4 +559,127 @@ void parse_assignment(const char *line, FILE *out, ParserContext *ctx) {
             }
         }
     }
+}
+
+void parse_function_definition(const char *line, FILE *out, ParserContext *ctx) {
+    // Skip "gawe" and whitespace
+    const char *p = line + 4;
+    while (*p && isspace((unsigned char)*p)) p++;
+    
+    // Parse function name
+    char func_name[128] = {0};
+    int ni = 0;
+    
+    while (is_ident_char((unsigned char)*p) && ni < 127) {
+        func_name[ni++] = *p++;
+    }
+    func_name[ni] = 0;
+    
+    // Skip to parameters
+    while (*p && isspace((unsigned char)*p)) p++;
+    
+    // Check for opening parenthesis
+    if (*p != '(') {
+        fprintf(stderr, "Error: Expected '(' after function name\n");
+        return;
+    }
+    p++;
+    
+    // Get parameters
+    char param_list[512] = {0};
+    int pi = 0;
+    
+    int paren_depth = 1;
+    while (*p && paren_depth > 0) {
+        if (*p == '(') paren_depth++;
+        else if (*p == ')') paren_depth--;
+        
+        if (paren_depth > 0) {
+            param_list[pi++] = *p++;
+        } else {
+            p++; // Skip closing parenthesis
+        }
+    }
+    param_list[pi] = 0;
+    
+    // Skip to return type if specified
+    while (*p && isspace((unsigned char)*p)) p++;
+    
+    // Check for return type
+    char return_type[32] = "double"; // Default return type
+    if (*p == ':') {
+        p++;
+        while (*p && isspace((unsigned char)*p)) p++;
+        
+        int ti = 0;
+        while (is_ident_char((unsigned char)*p) && ti < 31) {
+            return_type[ti++] = *p++;
+        }
+        return_type[ti] = 0;
+    }
+    
+    // Map Jawa types to C types
+    const char *c_return_type = "double";
+    if (strcmp(return_type, "int") == 0) c_return_type = "int";
+    else if (strcmp(return_type, "double") == 0) c_return_type = "double";
+    else if (strcmp(return_type, "bool") == 0) c_return_type = "bool";
+    else if (strcmp(return_type, "string") == 0) c_return_type = "const char*";
+    
+    // Process parameters for C type declaration
+    char c_param_list[1024] = {0};
+    
+    if (strlen(param_list) > 0) {
+        // Split parameters by commas and add types
+        char *param_list_copy = strdup(param_list);
+        char *token = strtok(param_list_copy, ",");
+        int first = 1;
+        
+        while (token) {
+            // Trim whitespace
+            char *param = token;
+            while (*param && isspace((unsigned char)*param)) param++;
+            char *end = param + strlen(param) - 1;
+            while (end > param && isspace((unsigned char)*end)) *end-- = 0;
+            
+            if (strlen(param) > 0) {
+                if (!first) {
+                    strcat(c_param_list, ", ");
+                }
+                // Default to double for parameters
+                strcat(c_param_list, "double ");
+                strcat(c_param_list, param);
+                first = 0;
+                
+                // Register parameter as a variable in the parser context
+                parser_add_var(ctx, param, TY_DOUBLE);
+            }
+            
+            token = strtok(NULL, ",");
+        }
+        
+        free(param_list_copy);
+    }
+    
+    // Generate function definition
+    fprintf(out, "%s %s(%s) {\n", c_return_type, func_name, c_param_list);
+    
+    // Function is complete when we see the closing brace
+    // The function body will be processed separately
+}
+
+void parse_return_statement(const char *line, FILE *out, ParserContext *ctx) {
+    // Skip "bali" and whitespace
+    const char *p = line + 4;
+    while (*p && isspace((unsigned char)*p)) p++;
+    
+    // Parse the return expression
+    char ebuf[4096];
+    int oi = 0;
+    ebuf[0] = 0;
+    
+    Lexer L = {.p = p};
+    lex_next(&L);
+    (void)parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+    
+    fprintf(out, "return %s;\n", ebuf);
 }

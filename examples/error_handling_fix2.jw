@@ -1,0 +1,70 @@
+// Demonstrasi penanganan error
+cithak("=== PENANGANAN ERROR DEMO ===")
+
+// 1. Penanganan error pada file operations
+cithak("\n1. Penanganan Error File Operations")
+
+// Mencoba membuka file yang tidak ada
+JawaFile* berkas = file_buka("file_tidak_ada.txt", "waca")
+
+// Pengecekan hasil
+owahi berkas_ada = (berkas != NULL)
+cithak("Cek berkas ada: " + berkas_ada)
+
+owahi pesan_error = "File tidak ditemukan"
+cithak("Error berhasil ditangkap: " + pesan_error)
+
+// 2. Penanganan error pada pembagian dengan nol
+cithak("\n2. Penanganan Error Pembagian Dengan Nol")
+
+owahi a = 10.0
+owahi b = 0.0
+
+// Pengecekan error sebelum operasi berbahaya
+owahi ada_error = (b == 0.0)
+cithak("Mendeteksi pembagian dengan nol: " + ada_error)
+
+// Cek kondisi error dan tangani
+owahi hasil = 0
+owahi pesan = "Tidak ada error"
+
+menawa (ada_error)
+{
+    pesan = "Pembagian dengan nol"
+}
+
+cithak("Pesan: " + pesan)
+cithak("Hasil aman (karena kita cek dulu): " + hasil)
+
+// 3. Menulis ke file lalu membacanya
+cithak("\n3. Menulis dan Membaca File")
+
+// Tulis ke file
+JawaFile* berkas_tulis = file_buka("test_error.txt", "tulis")
+owahi berkas_tulis_valid = (berkas_tulis != NULL)
+cithak("File tulis valid: " + berkas_tulis_valid)
+
+menawa (berkas_tulis_valid)
+{
+    file_tulis(berkas_tulis, "Tes error handling")
+    file_tutup(berkas_tulis)
+    cithak("Berhasil menulis ke file")
+    
+    // Baca file
+    JawaFile* berkas_baca = file_buka("test_error.txt", "waca")
+    owahi berkas_baca_valid = (berkas_baca != NULL)
+    cithak("File baca valid: " + berkas_baca_valid)
+    
+    menawa (berkas_baca_valid)
+    {
+        char* isi = file_waca_kabeh(berkas_baca)
+        cithak("Isi file: " + isi)
+        file_tutup(berkas_baca)
+        
+        // Pembersihan
+        file_hapus("test_error.txt")
+        cithak("File berhasil dihapus")
+    }
+}
+
+cithak("\n=== DEMO SELESAI ===")

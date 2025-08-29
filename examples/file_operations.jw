@@ -1,0 +1,82 @@
+// Demonstrasi Operasi File Sederhana
+cithak("=== Tes Operasi File ===")
+
+// Membuka file untuk ditulis
+cithak("Membuka file untuk ditulis...")
+JawaFile* berkas = file_buka("data_test.txt", "tulis")
+
+// Menulis ke file
+cithak("Menulis ke file...")
+file_tulis(berkas, "Halo, ini tes tulis file!\n")
+file_tulis(berkas, "Baris kedua dari file.\n")
+file_tulis_baris(berkas, "Baris ketiga dengan newline otomatis.")
+
+// Menutup file
+file_tutup(berkas)
+cithak("File berhasil ditulis!")
+
+// Mengecek keberadaan file
+cithak("\nMengecek keberadaan file:")
+cithak("File 'data_test.txt' ada: " + file_ada("data_test.txt"))
+cithak("File 'tidak_ada.txt' ada: " + file_ada("tidak_ada.txt"))
+
+// Mendapatkan informasi file
+cithak("\nInformasi file:")
+FileInfo* info = file_info("data_test.txt")
+cithak("- Nama: " + info->name)
+cithak("- Ukuran: " + info->size + " bytes")
+cithak("- Bisa dibaca: " + info->is_readable)
+cithak("- Bisa ditulis: " + info->is_writable)
+
+// Membuka file untuk dibaca
+cithak("\nMembaca isi file:")
+JawaFile* berkas_baca = file_buka("data_test.txt", "waca")
+
+// Membaca seluruh isi file
+const char* isi_lengkap = file_waca_kabeh(berkas_baca)
+cithak("Isi file lengkap:")
+cithak("-------------------")
+cithak(isi_lengkap)
+cithak("-------------------")
+
+// Reset posisi file
+file_tutup(berkas_baca)
+berkas_baca = file_buka("data_test.txt", "waca")
+
+// Membaca baris per baris
+cithak("\nMembaca baris per baris:")
+cithak("-------------------")
+char* baris = NULL
+while (!file_akhir(berkas_baca)) {
+    baris = file_waca_baris(berkas_baca)
+    if (baris != NULL) {
+        cithak(">> " + baris)
+    }
+}
+cithak("-------------------")
+
+// Menutup file
+file_tutup(berkas_baca)
+
+// Menambahkan ke file (append)
+cithak("\nMenambahkan ke file...")
+JawaFile* berkas_tambah = file_buka("data_test.txt", "tambah")
+file_tulis_baris(berkas_tambah, "\nBaris tambahan 1")
+file_tulis_baris(berkas_tambah, "Baris tambahan 2")
+file_tutup(berkas_tambah)
+
+// Membaca file setelah ditambahkan
+berkas_baca = file_buka("data_test.txt", "waca")
+isi_lengkap = file_waca_kabeh(berkas_baca)
+cithak("Isi file setelah append:")
+cithak("-------------------")
+cithak(isi_lengkap)
+cithak("-------------------")
+file_tutup(berkas_baca)
+
+// Pembersihan
+cithak("\nMembersihkan...")
+file_hapus("data_test.txt")
+cithak("File 'data_test.txt' dihapus")
+
+cithak("\n=== Tes Selesai ===")

@@ -1,0 +1,81 @@
+// Demo Fitur OOP yang Diperluas
+
+// Definisi kelas dasar dengan properti
+kelas Hewan {
+    // Properties 
+    private owahi umur = 0
+    owahi jenis = "Tidak Diketahui"
+    
+    // Constructor
+    gawe konstruktor(jenis, umur) {
+        self.jenis = jenis
+        self.umur = umur
+    }
+    
+    // Method untuk mendapatkan informasi
+    gawe info() {
+        bali "Hewan " + self.jenis + " berumur " + self.umur + " tahun"
+    }
+    
+    // Method untuk suara
+    gawe suara() {
+        bali "..."
+    }
+}
+
+// Subkelas yang meng-extend kelas dasar
+kelas Kucing turunan Hewan {
+    // Property tambahan
+    owahi warna = "Putih"
+    
+    // Override constructor
+    gawe konstruktor(warna, umur) {
+        // Panggil constructor parent
+        super.konstruktor("Kucing", umur)
+        self.warna = warna
+    }
+    
+    // Override method suara
+    gawe suara() {
+        bali "Meong!"
+    }
+    
+    // Method tambahan
+    gawe info_lengkap() {
+        bali self.info() + " dengan warna " + self.warna
+    }
+}
+
+// Membuat objek menggunakan enhanced OOP API
+cithak("=== Demo OOP Diperluas ===")
+
+// Buat instance Hewan
+owahi hewan = Hewan_ex("Gajah", 15)
+cithak("Hewan Info: " + hewan.info())
+cithak("Suara: " + hewan.suara())
+
+// Buat instance Kucing
+owahi kucing = Kucing_ex("Hitam", 3)
+cithak("Kucing Info: " + kucing.info())
+cithak("Suara: " + kucing.suara())
+cithak("Info Lengkap: " + kucing.info_lengkap())
+
+// Menunjukkan polimorfisme
+owahi daftar_hewan = [hewan, kucing]
+untuk (owahi h dari daftar_hewan) {
+    cithak("Hewan: " + h.jenis + ", Suara: " + h.suara())
+}
+
+// Demo akses property dan polimorfisme
+cithak("\n=== Akses Property dan Polimorfisme ===")
+cithak("Jenis hewan: " + hewan.jenis)
+cithak("Umur kucing: " + kucing.umur)
+cithak("Warna kucing: " + kucing.warna)
+
+// Mengubah property
+hewan.umur = 16
+kucing.warna = "Belang"
+
+cithak("Umur hewan baru: " + hewan.umur)
+cithak("Warna kucing baru: " + kucing.warna)
+cithak("Info kucing setelah perubahan: " + kucing.info_lengkap())

@@ -1,0 +1,17 @@
+// Contoh struktur data sangat dasar
+cithak("=== Contoh Struktur Data Dasar ===")
+
+// String operations
+owahi teks = "Jawa Programming"
+cithak("Original: " + teks)
+cithak("Uppercase: " + teks.toUpperCase())
+cithak("Lowercase: " + teks.toLowerCase())
+cithak("Panjang: " + teks.length())
+
+// String concatenation
+owahi nama1 = "Jawa"
+owahi nama2 = "Script"
+owahi gabungan = nama1 + nama2
+cithak("Gabungan: " + gabungan)
+
+cithak("\n=== Selesai ===")

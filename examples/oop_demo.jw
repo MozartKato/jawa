@@ -1,0 +1,130 @@
+cithak("Tes Pemrograman Berorientasi Objek Dienhanced")
+
+// Definisi kelas dasar
+bolo Kendaraan {
+    // Properties
+    pribadi owahi merek: string
+    pribadi owahi tahun: int
+    owahi warna: string
+    
+    // Constructor
+    gawe constructor(m: string, t: int, w: string) {
+        this.merek = m
+        this.tahun = t
+        this.warna = w
+    }
+    
+    // Methods
+    gawe infoLengkap(): string {
+        bali "Kendaraan " + this.merek + " (" + this.tahun + "), warna " + this.warna
+    }
+    
+    gawe getMerek(): string {
+        bali this.merek
+    }
+    
+    gawe setMerek(m: string) {
+        this.merek = m
+    }
+}
+
+// Kelas turunan
+bolo Mobil warisi Kendaraan {
+    pribadi owahi jumlahPintu: int
+    pribadi owahi bahanBakar: string
+    
+    gawe constructor(m: string, t: int, w: string, jp: int, bb: string) {
+        // Panggil constructor parent
+        super(m, t, w)
+        this.jumlahPintu = jp
+        this.bahanBakar = bb
+    }
+    
+    // Override method dari parent
+    gawe infoLengkap(): string {
+        bali super.infoLengkap() + ", " + this.jumlahPintu + " pintu, bahan bakar " + this.bahanBakar
+    }
+    
+    gawe getJumlahPintu(): int {
+        bali this.jumlahPintu
+    }
+}
+
+// Kelas turunan yang lebih spesifik dengan enhanced OOP
+bolo MobilSport warisi Mobil {
+    pribadi owahi kecepatanMaks: int
+    pribadi owahi waktuAkselerasi: double
+    
+    gawe constructor(m: string, t: int, w: string, jp: int, bb: string, km: int, wa: double) {
+        // Panggil constructor parent
+        super(m, t, w, jp, bb)
+        this.kecepatanMaks = km
+        this.waktuAkselerasi = wa
+    }
+    
+    // Override method dari parent
+    gawe infoLengkap(): string {
+        bali super.infoLengkap() + ", kecepatan maks " + this.kecepatanMaks + " km/j" +
+             ", akselerasi 0-100 km/j dalam " + this.waktuAkselerasi + " detik"
+    }
+    
+    // Method khusus untuk MobilSport
+    gawe hitungPerforma(): double {
+        bali this.kecepatanMaks / this.waktuAkselerasi
+    }
+}
+
+// Penggunaan kelas
+cithak("Membuat objek kendaraan")
+owahi motor = gawe Kendaraan("Honda", 2020, "Merah")
+cithak(motor.infoLengkap())
+cithak("Merek: " + motor.getMerek())
+
+// Mengubah property via setter
+motor.setMerek("Yamaha")
+cithak("Merek baru: " + motor.getMerek())
+
+// Penggunaan kelas turunan
+cithak("\nMembuat objek mobil")
+owahi sedan = gawe Mobil("Toyota", 2022, "Hitam", 4, "Bensin")
+cithak(sedan.infoLengkap())
+
+// Akses property dari parent class
+cithak("Merek mobil: " + sedan.getMerek())
+cithak("Jumlah pintu: " + sedan.getJumlahPintu())
+
+// Penggunaan kelas MobilSport (enhanced OOP)
+cithak("\nMembuat objek mobil sport")
+owahi ferrari = gawe MobilSport("Ferrari", 2023, "Merah", 2, "Bensin", 340, 2.8)
+cithak(ferrari.infoLengkap())
+cithak("Nilai performa: " + ferrari.hitungPerforma())
+
+// Polymorphism
+owahi kendaraanku: Kendaraan = sedan
+cithak("\nPolymorphism demo:")
+cithak(kendaraanku.infoLengkap())  // Akan memanggil versi Mobil
+
+// Polymorphism dengan MobilSport
+owahi mobilku: Mobil = ferrari
+cithak("\nPolymorphism dengan MobilSport:")
+cithak(mobilku.infoLengkap())  // Akan memanggil versi MobilSport
+
+// Demonstrasi akses dan manipulasi objek bersarang
+bolo Perusahaan {
+    owahi nama: string
+    owahi produk: MobilSport  // Property bertipe objek
+    
+    gawe constructor(n: string, m: MobilSport) {
+        this.nama = n
+        this.produk = m
+    }
+    
+    gawe infoPerusahaan(): string {
+        bali "Perusahaan " + this.nama + " memproduksi:\n  " + this.produk.infoLengkap()
+    }
+}
+
+// Membuat objek bersarang
+cithak("\nDemo objek bersarang:")
+owahi perusahaan = gawe Perusahaan("Ferrari S.p.A", ferrari)
+cithak(perusahaan.infoPerusahaan())

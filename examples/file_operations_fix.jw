@@ -1,0 +1,40 @@
+// Demonstrasi Operasi File - Versi Final dengan Verifikasi Shell
+cithak("=== Tes Operasi File - Verifikasi Shell ===")
+
+// Buat file dengan path absolut
+cithak("Membuat file dengan path absolut...")
+JawaFile* f = file_buka("/home/yazid/project/jawa/test_final.txt", "tulis")
+file_tulis(f, "Ini adalah file test final")
+file_tutup(f)
+
+// Cek apakah file ada
+owahi ada = file_ada("/home/yazid/project/jawa/test_final.txt")
+cithak("File ada: " + ada)
+
+// Verifikasi dengan shell
+cithak("\nVerifikasi file dengan shell:")
+system("ls -la /home/yazid/project/jawa/test_final.txt")
+system("cat /home/yazid/project/jawa/test_final.txt")
+
+// Hapus file
+cithak("\nHapus file...")
+owahi hapus = file_hapus("/home/yazid/project/jawa/test_final.txt")
+cithak("Hasil hapus file: " + hapus)
+cithak("File masih ada: " + file_ada("/home/yazid/project/jawa/test_final.txt"))
+
+// Verifikasi penghapusan dengan shell
+cithak("\nVerifikasi penghapusan dengan shell:")
+system("ls -la /home/yazid/project/jawa/test_final.txt 2>/dev/null || echo 'File tidak ada'")
+
+cithak("\n=== Tes Selesai ===")
+
+// Hapus file
+cithak("\nMembersihkan...")
+owahi hasil_hapus = file_hapus("data_test.txt")
+cithak("Hasil hapus file: " + hasil_hapus)
+
+// Cek apakah file masih ada
+owahi ada_setelah_hapus = file_ada("data_test.txt")
+cithak("File masih ada: " + ada_setelah_hapus)
+
+cithak("\n=== Tes Selesai ===")

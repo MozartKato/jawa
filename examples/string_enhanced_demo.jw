@@ -1,0 +1,16 @@
+cithak("Tes Library String Baru")
+
+// String untuk tes
+owahi teks = "  Bahasa Jawa  "
+
+// Menghapus spasi di awal dan akhir
+cithak("Teks asli: '" + teks + "'")
+cithak("Setelah trim_ex: '" + teks.trim_ex() + "'")
+
+// Mengecek substring
+owahi kalimat = "Saya belajar Bahasa Jawa untuk memahami budaya Jawa"
+
+// Simple test cases that don't require array manipulation or conversions
+cithak("String input: " + kalimat)
+cithak("Mengulang 'Jawa' 3 kali: " + "Jawa".ulang(3))
+cithak("String 'Jawa' dalam format JSON: " + "Jawa".ke_json())

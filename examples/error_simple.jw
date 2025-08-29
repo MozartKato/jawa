@@ -1,0 +1,18 @@
+// Contoh error handling sederhana
+cithak("Contoh penanganan error sederhana")
+
+// Mencoba membuka file yang tidak ada
+JawaFile* berkas = file_buka("file_tidak_ada.txt", "waca")
+cithak("Berhasil membuka file: " + (berkas != NULL))
+
+// Mencoba operasi file lain
+JawaFile* berkas_tulis = file_buka("test_file.txt", "tulis")
+file_tulis(berkas_tulis, "Tes error handling")
+file_tutup(berkas_tulis)
+
+// Membuka file yang sudah dibuat
+JawaFile* berkas_baca = file_buka("test_file.txt", "waca")
+cithak("Berhasil membuka file test: " + (berkas_baca != NULL))
+
+// Pembersihan
+file_hapus("test_file.txt")

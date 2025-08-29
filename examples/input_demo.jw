@@ -1,0 +1,9 @@
+cithak("Tes Input Pengguna")
+
+gawe jupuk(pesan) {
+    cithak(pesan)
+    bali "Jawaban dari pengguna"
+}
+
+owahi nama = jupuk("Masukkan nama Anda: ")
+cithak("Halo, " + nama + "!")

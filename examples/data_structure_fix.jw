@@ -1,0 +1,22 @@
+// Contoh struktur data yang bekerja
+cithak("=== STRUKTUR DATA DASAR ===")
+
+// String operations
+cithak("\n1. String Operations")
+owahi text = "Jawa Programming"
+cithak("Original: " + text)
+cithak("Uppercase: " + text.toUpperCase())
+cithak("Lowercase: " + text.toLowerCase())
+cithak("Length: " + text.length())
+
+// String split to array
+cithak("\n2. Array Operations")
+owahi data = "satu,dua,tiga,empat"
+cithak("Data: " + data)
+owahi items = data.split(",")
+cithak("Jumlah item: " + items.length)
+cithak("Item ke-1: " + items[0])
+cithak("Item ke-2: " + items[1])
+cithak("Item ke-3: " + items[2])
+
+cithak("\n=== DEMO SELESAI ===")

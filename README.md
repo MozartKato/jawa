@@ -1,10 +1,11 @@
-# 🌟 Jawa Programming Language v0.25
+# 🌟 Jawa Programming Language v0.3
 
 **Menyatukan tradisi Jawa dengan pemrograman modern** • *Uniting Javanese tradition with modern programming*
 
 ![Jawa Programming](https://img.shields.io/badge/Language-Jawa-green)
-![Version](https://img.shields.io/badge/Version-0.25-blue)
+![Version](https://img.shields.io/badge/Version-0.3-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
 ## 🌟 Features
 
@@ -12,9 +13,14 @@
 - **Variable Declaration**: `owahi` (var/let) with type inference
 - **Constants**: `ajek` (const) for immutable values  
 - **Print Statements**: `cithak` (print/output)
-- **Conditional Flow**: `yen`/`liyane` (if/else)
+- **Conditional Flow**: `yen`/`liyane`/`liyane yen` (if/else/else if)
 - **Loops**: `ngulang` (for), `menawa` (while)
+- **Functions**: `gawe` (function) with `bali` (return)
+- **Error Handling**: `nyoba`/`cekel`/`pungkasan` (try/catch/finally)
 - **Boolean Values**: `bener`/`salah` (true/false)
+- **File Input/Output**: File operations and management
+- **Object-Oriented Programming**: Class definition, inheritance
+- **Package Management**: Dependency management system
 
 ### ✅ **String Operations (Dual Syntax)**
 | English Syntax | Javanese Syntax | Function |
@@ -26,6 +32,9 @@
 | `.substring(0,5)` | `.potong(0,5)` | Extract substring |
 | `.length` / `.length()` | `.dawane` | String length |
 | `concat(a,b)` | `gabung(a,b)` | Concatenate strings |
+| `.trim()` | `.resiki()` | Remove whitespace |
+| `.contains("text")` | `.ngandhut("text")` | Check substring existence |
+| `.toCharArray()` | `.ke_karakter()` | Convert to character array |
 
 ### ✅ **Array Operations**
 - **Creation**: Via string splitting (`split()` / `pisah()`)
@@ -38,6 +47,8 @@
 - **Auto Type Conversion**: Automatic int/bool to string in concatenation
 - **String Concatenation**: `"text" + variable + "more"`
 - **Complex Expressions**: Nested operations with proper precedence
+- **Cross-Platform Support**: Windows, macOS, and Linux compatibility
+- **Package Management**: Import and manage third-party libraries
 
 ## 🚀 Quick Start
 
@@ -47,12 +58,30 @@
 git clone https://github.com/MozartKato/jawa
 cd jawa
 
-# Build the compiler
+# Build the compiler (cross-platform)
 make
 
 # Run an example
-./jawa build examples/complete_demo.jw demo
+./jawa run examples/quick_demo.jw
+
+# Or compile and run separately
+./jawa build examples/quick_demo.jw demo
 ./demo
+```
+
+### Package Management
+```bash
+# Initialize a new project
+jawa paket init
+
+# Install a package
+jawa paket pasang matematika@1.0.0
+
+# List installed packages
+jawa paket daftar
+
+# Use packages in code
+impor "matematika" sebagai mtk
 ```
 
 ### Hello World

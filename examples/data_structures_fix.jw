@@ -1,0 +1,39 @@
+// Demonstrasi struktur data dasar
+cithak("=== STRUKTUR DATA DEMO ===")
+
+// 1. Array Sederhana - menggunakan string split
+cithak("\n1. Array Sederhana")
+owahi angka_str = "1,2,3,4,5"
+owahi angka = angka_str.split(",")
+
+cithak("Array angka: " + angka_str)
+cithak("Elemen ke-1: " + angka[0])
+cithak("Elemen ke-3: " + angka[2])
+cithak("Jumlah elemen: " + angka.length)
+
+// 2. Map/Dictionary - simulasi dengan array
+cithak("\n2. Map/Dictionary Simulasi")
+owahi nama_siswa = "Budi"
+owahi umur_siswa = 15
+owahi kelas_siswa = "9A"
+
+cithak("Data Siswa:")
+cithak("- Nama: " + nama_siswa)
+cithak("- Umur: " + umur_siswa)
+cithak("- Kelas: " + kelas_siswa)
+
+// 3. Pengolahan Array
+cithak("\n3. Pengolahan Array")
+owahi buah_str = "apel,jeruk,mangga,pisang,anggur"
+owahi buah = buah_str.split(",")
+
+cithak("Daftar buah: " + buah_str)
+cithak("Jumlah buah: " + buah.length)
+
+// Iterasi array
+cithak("Buah-buahan:")
+ngulang (owahi i = 0; i < buah.length; i++) {
+    cithak("- " + buah[i])
+}
+
+cithak("\n=== DEMO SELESAI ===")

@@ -1,0 +1,4 @@
+cithak("Tes Sederhana")
+owahi a = 5
+owahi b = 10
+cithak(a + b)

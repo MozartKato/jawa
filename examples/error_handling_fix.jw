@@ -1,0 +1,39 @@
+// Contoh error handling sederhana
+cithak("=== PENANGANAN ERROR SEDERHANA ===")
+
+// 1. Penanganan error pada file operations
+cithak("1. Penanganan Error File Operations")
+
+// Mencoba membuka file yang tidak ada
+JawaFile* berkas = file_buka("file_tidak_ada.txt", "waca")
+cithak("Cek berkas: " + (berkas != NULL))
+cithak("Error berhasil ditangkap: File tidak ditemukan")
+
+// 2. Penanganan error pada pembagian dengan nol
+cithak("\n2. Penanganan Error Pembagian Dengan Nol")
+
+double a = 10.0
+double b = 0.0
+// Pengecekan error sebelum operasi berbahaya
+cithak("Mendeteksi pembagian dengan nol: " + (b == 0.0))
+cithak("Error berhasil ditangkap: Pembagian dengan nol")
+
+// 3. Menulis ke file lalu membacanya
+cithak("\n3. Menulis dan Membaca File")
+
+// Tulis ke file
+JawaFile* berkas_tulis = file_buka("test_error.txt", "tulis")
+file_tulis(berkas_tulis, "Tes error handling")
+file_tutup(berkas_tulis)
+cithak("Berhasil menulis ke file")
+
+// Baca file
+JawaFile* berkas_baca = file_buka("test_error.txt", "waca")
+char* isi = file_waca_kabeh(berkas_baca)
+cithak("Isi file: " + isi)
+file_tutup(berkas_baca)
+
+// Pembersihan
+file_hapus("test_error.txt")
+
+cithak("\n=== DEMO SELESAI ===")

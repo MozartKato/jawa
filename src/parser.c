@@ -148,6 +148,36 @@ static Ty parse_primary(Lexer *L, char *out, size_t outsz, int *oi, ParserContex
         Ty ty = parser_get_var_type(ctx, t.lex);
         lex_next(L);
         
+        // Check if this is a function call
+        if (L->cur.kind == T_LPAREN) {
+            // This is a function call
+            lex_next(L); // consume '('
+            
+            // Add function name
+            sb_add(out, outsz, oi, "%s(", var_name);
+            
+            // Parse arguments
+            int arg_count = 0;
+            while (L->cur.kind != T_RPAREN && L->cur.kind != T_EOF) {
+                if (arg_count > 0) {
+                    sb_add(out, outsz, oi, ", ");
+                }
+                parse_expr(L, out, outsz, oi, ctx);
+                arg_count++;
+                
+                if (L->cur.kind == T_COMMA) {
+                    lex_next(L);
+                }
+            }
+            
+            if (L->cur.kind == T_RPAREN) {
+                lex_next(L); // consume ')'
+            }
+            
+            sb_add(out, outsz, oi, ")");
+            return ty == TY_UNK ? TY_DOUBLE : ty; // Default to double if type unknown
+        }
+        
         // Check for method chaining with dot notation
         if (L->cur.kind == T_DOT) {
             lex_next(L); // consume '.'

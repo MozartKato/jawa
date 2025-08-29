@@ -3,10 +3,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include "lexer.h"
 #include "parser.h"
 #include "statements.h"
+#include "file_ops.h"
 #include "oop/class.h"
 
 static void write_preamble(FILE *c) {
@@ -40,6 +42,31 @@ static void write_preamble(FILE *c) {
     fputs("char* int_to_string(int value);\n", c);
     fputs("char* long_to_string(long long value);\n", c);
     fputs("char* double_to_string(double value);\n\n", c);
+    
+    // Add file operations function prototypes
+    fputs("// Built-in file operations functions\n", c);
+    fputs("typedef struct JawaFile JawaFile;\n", c);
+    fputs("typedef struct FileInfo FileInfo;\n", c);
+    fputs("JawaFile* file_buka(const char *path, const char *mode);\n", c);
+    fputs("void file_tutup(JawaFile *jf);\n", c);
+    fputs("char* file_waca_kabeh(JawaFile *jf);\n", c);
+    fputs("char* file_waca_baris(JawaFile *jf);\n", c);
+    fputs("int file_tulis(JawaFile *jf, const char *text);\n", c);
+    fputs("int file_tulis_baris(JawaFile *jf, const char *text);\n", c);
+    fputs("int file_akhir(JawaFile *jf);\n", c);
+    fputs("FileInfo* file_info(const char *path);\n", c);
+    fputs("bool file_ada(const char *path);\n", c);
+    fputs("bool file_hapus(const char *path);\n", c);
+    fputs("bool file_ubah_nama(const char *old_path, const char *new_path);\n", c);
+    fputs("bool file_ubah_posisi(JawaFile *jf, long offset, int whence);\n", c);
+    fputs("long file_posisi(JawaFile *jf);\n", c);
+    fputs("char* file_waca_bytes(JawaFile *jf, size_t bytes);\n", c);
+    fputs("const char* file_error_message(JawaFile *jf);\n", c);
+    fputs("bool file_bisa_dibaca(const char *path);\n", c);
+    fputs("bool file_bisa_ditulis(const char *path);\n", c);
+    fputs("bool file_buat_direktori(const char *path);\n", c);
+    fputs("bool file_adalah_direktori(const char *path);\n", c);
+    fputs("char** file_list_direktori(const char *path, int *count);\n\n", c);
     
     // Add array function prototypes
     fputs("// Built-in array functions\n", c);
@@ -398,7 +425,7 @@ int build_native(const char *srcPath, const char *outPath) {
 
     // Compile C code
     char cmd[8192];
-    snprintf(cmd, sizeof(cmd), "cc -O2 -std=c11 -o '%s' '%s'", outPath, tmpc);
+    snprintf(cmd, sizeof(cmd), "cc -O2 -std=c11 -o '%s' '%s' obj/file_ops.o", outPath, tmpc);
     int rc = system(cmd);
     if (rc != 0) {
         fprintf(stderr, "Failed to build native binary (rc=%d)\n", rc);

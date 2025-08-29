@@ -1,0 +1,57 @@
+// Demonstrasi OOP Sederhana tanpa fungsi kustom
+cithak("=== DEMO OOP SEDERHANA ===")
+
+// Membuat kendaraan
+cithak("\n1. Membuat Objek Kendaraan")
+owahi merek = "Honda"
+owahi tahun = 2020
+owahi warna = "Merah"
+
+// Info kendaraan (tanpa fungsi)
+owahi info_kendaraan = "Kendaraan " + merek + " tahun " + tahun + ", warna " + warna
+cithak("Info: " + info_kendaraan)
+
+// Mengubah property
+merek = "Yamaha"
+cithak("Merek baru: " + merek)
+owahi info_kendaraan_baru = "Kendaraan " + merek + " tahun " + tahun + ", warna " + warna
+cithak("Info setelah diubah: " + info_kendaraan_baru)
+
+// Membuat mobil (simulasi inheritance)
+cithak("\n2. Membuat Objek Mobil")
+owahi mobil_merek = "Toyota"
+owahi mobil_tahun = 2022
+owahi mobil_warna = "Hitam"
+owahi mobil_pintu = 4
+owahi mobil_bakar = "Bensin"
+
+// Deskripsi dengan beberapa baris
+owahi info_mobil1 = "Kendaraan " + mobil_merek + " tahun " + mobil_tahun
+owahi info_mobil2 = ", warna " + mobil_warna + ", " + mobil_pintu + " pintu"
+owahi info_mobil3 = ", bahan bakar " + mobil_bakar
+owahi info_mobil = info_mobil1 + info_mobil2 + info_mobil3
+cithak("Info Mobil: " + info_mobil)
+
+// Membuat objek mobil sport
+cithak("\n3. Membuat Objek Mobil Sport")
+owahi sport_merek = "Ferrari"
+owahi sport_tahun = 2023
+owahi sport_warna = "Merah"
+owahi sport_pintu = 2
+owahi sport_bakar = "Bensin"
+owahi sport_kecepatan = 340
+owahi sport_akselerasi = 2.8
+
+// Deskripsi dengan beberapa baris
+owahi info_sport1 = "Kendaraan " + sport_merek + " tahun " + sport_tahun
+owahi info_sport2 = ", warna " + sport_warna + ", " + sport_pintu + " pintu"
+owahi info_sport3 = ", bahan bakar " + sport_bakar
+owahi info_sport4 = ", kecepatan maks " + sport_kecepatan + " km/j"
+owahi info_sport5 = ", akselerasi 0-100 km/j dalam " + sport_akselerasi + " detik"
+owahi info_sport = info_sport1 + info_sport2 + info_sport3 + info_sport4 + info_sport5
+cithak("Info Mobil Sport: " + info_sport)
+
+owahi performa = sport_kecepatan / sport_akselerasi
+cithak("Nilai performa: " + performa)
+
+cithak("\n=== DEMO SELESAI ===")
