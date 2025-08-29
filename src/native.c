@@ -68,6 +68,10 @@ static void write_preamble(FILE *c) {
     fputs("bool file_adalah_direktori(const char *path);\n", c);
     fputs("char** file_list_direktori(const char *path, int *count);\n\n", c);
     
+    // Add system command function prototype  
+    fputs("// Built-in system functions\n", c);
+    fputs("int system(const char *command);\n\n", c);
+    
     // Add array function prototypes
     fputs("// Built-in array functions\n", c);
     fputs("typedef struct { char** data; int size; int capacity; } JawaArray;\n", c);
@@ -97,6 +101,11 @@ static void parse_classes(FILE *in, FILE *out) {
     int method_body_len = 0;
     int brace_depth = 0;
     
+    // Method parsing state
+    char current_method_name[64] = {0};
+    char current_method_params[256] = {0};
+    char current_method_return_type[32] = {0};
+    
     rewind(in);
     
     while (fgets(line, sizeof(line), in)) {
@@ -108,7 +117,7 @@ static void parse_classes(FILE *in, FILE *out) {
         if (!*p) continue;
 
         // Handle bolo (class) declaration
-        if (strncmp(p, "bolo ", 5) == 0 && isspace((unsigned char)p[5])) {
+        if (strncmp(p, "bolo ", 5) == 0) {
             const char *q = p + 5; 
             while (*q && isspace((unsigned char)*q)) q++;
             
@@ -170,6 +179,66 @@ static void parse_classes(FILE *in, FILE *out) {
             
             // Handle gawe (method) inside class
             if (strncmp(p, "gawe ", 5) == 0) {
+                // Parse method name and parameters
+                const char *q = p + 5; // Skip "gawe "
+                while (*q && isspace((unsigned char)*q)) q++;
+                
+                // Extract method name
+                char method_name[64] = {0};
+                int ni = 0;
+                while (is_ident_char((unsigned char)*q) && ni < 63) {
+                    method_name[ni++] = *q++;
+                }
+                
+                // Skip whitespace and find parameters
+                while (*q && isspace((unsigned char)*q)) q++;
+                
+                // Extract parameters (between parentheses)
+                char method_params[256] = {0};
+                char method_return_type[32] = "void";
+                
+                if (*q == '(') {
+                    q++; // skip '('
+                    int pi = 0;
+                    int paren_depth = 1;
+                    while (*q && paren_depth > 0 && pi < 255) {
+                        if (*q == '(') paren_depth++;
+                        else if (*q == ')') paren_depth--;
+                        
+                        if (paren_depth > 0) {
+                            method_params[pi++] = *q;
+                        }
+                        q++;
+                    }
+                    
+                    // Look for return type after )
+                    while (*q && isspace((unsigned char)*q)) q++;
+                    if (*q == ':') {
+                        q++;
+                        while (*q && isspace((unsigned char)*q)) q++;
+                        
+                        // Extract return type
+                        int ri = 0;
+                        while (is_ident_char((unsigned char)*q) && ri < 31) {
+                            method_return_type[ri++] = *q++;
+                        }
+                        method_return_type[ri] = 0;
+                        
+                        // Convert Jawa types to C types
+                        if (strcmp(method_return_type, "string") == 0) {
+                            strcpy(method_return_type, "const char*");
+                        }
+                    }
+                }
+                
+                // Store method info for later when we finish parsing body
+                strncpy(current_method_name, method_name, sizeof(current_method_name) - 1);
+                strncpy(current_method_params, method_params, sizeof(current_method_params) - 1);
+                strncpy(current_method_return_type, method_return_type, sizeof(current_method_return_type) - 1);
+                current_method_name[sizeof(current_method_name) - 1] = 0;
+                current_method_params[sizeof(current_method_params) - 1] = 0;
+                current_method_return_type[sizeof(current_method_return_type) - 1] = 0;
+                
                 in_method = true;
                 method_body_len = 0;
                 method_body[0] = 0;
@@ -178,20 +247,36 @@ static void parse_classes(FILE *in, FILE *out) {
             
             // Collect method body
             if (in_method) {
-                if (method_body_len + strlen(p) + 2 < sizeof(method_body)) {
-                    if (method_body_len > 0) {
-                        strcat(method_body, "\n");
-                        method_body_len++;
-                    }
-                    strcat(method_body, "    ");
-                    strcat(method_body, p);
-                    method_body_len += strlen(p) + 4;
-                }
-                
                 if (brace_depth == 0 && strchr(p, '}')) {
-                    // End of method
-                    class_add_method(current_class, "", "void", "", method_body, false);
+                    // End of method - process collected body
+                    // For now, use simple method body with proper statement parsing later
+                    // The method_body contains raw statements that need processing
+                    
+                    class_add_method(current_class, current_method_name, current_method_return_type, 
+                                   current_method_params, method_body, false);
                     in_method = false;
+                    
+                    // Clear method info
+                    current_method_name[0] = 0;
+                    current_method_params[0] = 0;
+                    current_method_return_type[0] = 0;
+                } else if (strlen(p) > 0) {
+                    // Skip empty lines and opening braces
+                    const char *trimmed = p;
+                    while (*trimmed && isspace((unsigned char)*trimmed)) trimmed++;
+                    
+                    if (strlen(trimmed) > 0 && strcmp(trimmed, "{") != 0) {
+                        if (method_body_len + strlen(trimmed) + 10 < sizeof(method_body)) {
+                            if (method_body_len > 0) {
+                                strcat(method_body, "\n");
+                                method_body_len++;
+                            }
+                            
+                            // Store raw line - will be processed by statement parser
+                            strcat(method_body, trimmed);
+                            method_body_len += strlen(trimmed);
+                        }
+                    }
                 }
             }
             
@@ -207,8 +292,219 @@ static void parse_classes(FILE *in, FILE *out) {
     generate_object_c_code(out);
 }
 
+static void parse_function_definitions(FILE *in, FILE *out, ParserContext *ctx) {
+    char line[512];
+    bool in_function = false;
+    bool in_function_body = false;
+    bool in_class = false;
+    int class_brace_depth = 0;
+    
+    rewind(in);
+    
+    // First pass: Generate function prototypes
+    fputs("// Function prototypes\n", out);
+    while (fgets(line, sizeof(line), in)) {
+        size_t len = strlen(line); 
+        if (len && (line[len-1]=='\n' || line[len-1]=='\r')) line[--len]=0;
+        
+        const char *p = line; 
+        while (*p && isspace((unsigned char)*p)) p++;
+        if (!*p) continue;
+        
+        // Track class sections to skip methods inside classes
+        if (strncmp(p, "bolo ", 5) == 0) {
+            in_class = true;
+            class_brace_depth = 0;
+            continue;
+        }
+        
+        if (in_class) {
+            // Count braces in class
+            for (const char *c = p; *c; c++) {
+                if (*c == '{') class_brace_depth++;
+                if (*c == '}') class_brace_depth--;
+            }
+            
+            if (class_brace_depth <= 0) {
+                in_class = false;
+            }
+            continue; // Skip everything inside class
+        }
+
+        if (strncmp(p, "gawe ", 5) == 0) {
+            // Extract function name for prototype
+            const char *name_start = p + 5;
+            while (*name_start && isspace((unsigned char)*name_start)) name_start++;
+            
+            char func_name[64];
+            int i = 0;
+            while (*name_start && *name_start != '(' && !isspace((unsigned char)*name_start) && i < 63) {
+                func_name[i++] = *name_start++;
+            }
+            func_name[i] = 0;
+            
+            // Parse return type if specified  
+            const char *return_part = strchr(p, ')');
+            const char *c_return_type = "double"; // default
+            if (return_part) {
+                return_part++; // Skip ')'
+                while (*return_part && isspace((unsigned char)*return_part)) return_part++;
+                if (*return_part == ':') {
+                    return_part++;
+                    while (*return_part && isspace((unsigned char)*return_part)) return_part++;
+                    
+                    if (strncmp(return_part, "string", 6) == 0) c_return_type = "const char*";
+                    else if (strncmp(return_part, "int", 3) == 0) c_return_type = "int";
+                    else if (strncmp(return_part, "bool", 4) == 0) c_return_type = "bool";
+                    else if (strncmp(return_part, "double", 6) == 0) c_return_type = "double";
+                }
+            }
+            
+            // Default return type is double, default params are typed based on annotation
+            fprintf(out, "%s %s(", c_return_type, func_name);
+            
+            // Find parameter list
+            const char *paren_start = strchr(p, '(');
+            const char *paren_end = strchr(p, ')');
+            if (paren_start && paren_end && paren_end > paren_start) {
+                const char *param_str = paren_start + 1;
+                int param_len = paren_end - param_str;
+                char param_list[256];
+                if (param_len > 0 && param_len < 255) {
+                    strncpy(param_list, param_str, param_len);
+                    param_list[param_len] = 0;
+                    
+                    // Trim whitespace
+                    char *start = param_list;
+                    while (*start && isspace((unsigned char)*start)) start++;
+                    char *end = param_list + strlen(param_list) - 1;
+                    while (end > start && isspace((unsigned char)*end)) *end-- = 0;
+                    
+                    if (strlen(start) > 0) {
+                        // Split by comma and generate typed params
+                        char *param_copy = strdup(start);
+                        char *token = strtok(param_copy, ",");
+                        bool first = true;
+                        while (token) {
+                            // Trim token
+                            while (*token && isspace((unsigned char)*token)) token++;
+                            char *token_end = token + strlen(token) - 1;
+                            while (token_end > token && isspace((unsigned char)*token_end)) *token_end-- = 0;
+                            
+                            if (!first) fprintf(out, ", ");
+                            
+                            // Parse parameter with type annotation: "name: type" or just "name"
+                            char *colon = strchr(token, ':');
+                            if (colon) {
+                                // Has type annotation
+                                int name_len = colon - token;
+                                char param_name[128];
+                                if (name_len > 0 && name_len < 127) {
+                                    strncpy(param_name, token, name_len);
+                                    param_name[name_len] = 0;
+                                    
+                                    // Trim spaces from name
+                                    char *name_end = param_name + strlen(param_name) - 1;
+                                    while (name_end > param_name && isspace((unsigned char)*name_end)) *name_end-- = 0;
+                                    
+                                    // Extract type
+                                    char *type_start = colon + 1;
+                                    while (*type_start && isspace((unsigned char)*type_start)) type_start++;
+                                    
+                                    // Map type
+                                    const char *c_type = "double";
+                                    if (strncmp(type_start, "int", 3) == 0) c_type = "int";
+                                    else if (strncmp(type_start, "string", 6) == 0) c_type = "const char*";
+                                    else if (strncmp(type_start, "bool", 4) == 0) c_type = "bool";
+                                    
+                                    fprintf(out, "%s %s", c_type, param_name);
+                                }
+                            } else {
+                                // No type annotation, default to double
+                                fprintf(out, "double %s", token);
+                            }
+                            first = false;
+                            
+                            token = strtok(NULL, ",");
+                        }
+                        free(param_copy);
+                    }
+                }
+            }
+            fprintf(out, ");\n");
+        }
+    }
+    fputs("\n", out);
+    
+    // Second pass: Generate function implementations
+    rewind(in);
+    fputs("// Function implementations\n", out);
+    in_class = false;
+    class_brace_depth = 0;
+    
+    while (fgets(line, sizeof(line), in)) {
+        size_t len = strlen(line); 
+        if (len && (line[len-1]=='\n' || line[len-1]=='\r')) line[--len]=0;
+        
+        const char *p = line; 
+        while (*p && isspace((unsigned char)*p)) p++;
+        if (!*p) continue;
+        
+        // Track class sections to skip methods inside classes
+        if (strncmp(p, "bolo ", 5) == 0) {
+            in_class = true;
+            class_brace_depth = 0;
+            continue;
+        }
+        
+        if (in_class) {
+            // Count braces in class
+            for (const char *c = p; *c; c++) {
+                if (*c == '{') class_brace_depth++;
+                if (*c == '}') class_brace_depth--;
+            }
+            
+            if (class_brace_depth <= 0) {
+                in_class = false;
+            }
+            continue; // Skip everything inside class
+        }
+
+        if (strncmp(p, "gawe ", 5) == 0) {
+            in_function = true;
+            parse_function_definition(p, out, ctx);
+            continue;
+        }
+        
+        if (in_function) {
+            if (strcmp(p, "{") == 0) {
+                in_function_body = true;
+                // Don't write extra {, function header already has it
+                continue;
+            } else if (strcmp(p, "}") == 0) {
+                in_function_body = false;
+                in_function = false;
+                fputs("}\n\n", out);
+            } else if (in_function_body) {
+                // Parse function body statements
+                if (is_variable_declaration(p)) {
+                    parse_variable_declaration(p, out, ctx);
+                } else if (is_print_statement(p)) {
+                    parse_print_statement(p, out, ctx);
+                } else if (is_return_statement(p)) {
+                    parse_return_statement(p, out, ctx);
+                } else if (is_assignment(p)) {
+                    parse_assignment(p, out, ctx);
+                } else if (is_standalone_function_call(p)) {
+                    parse_standalone_function_call(p, out, ctx);
+                }
+            }
+        }
+    }
+}
 static void parse_main_program(FILE *in, FILE *out, ParserContext *ctx) {
     char line[512];
+    bool in_function = false;
     
     rewind(in);
     fputs("int main(){\n", out);
@@ -227,12 +523,21 @@ static void parse_main_program(FILE *in, FILE *out, ParserContext *ctx) {
             continue;
         }
 
-        // Skip standalone function declarations
-        if (strncmp(p, "gawe ", 5) == 0 && isspace((unsigned char)p[5])) {
+        // Skip function definitions (already handled in parse_function_definitions)
+        if (strncmp(p, "gawe ", 5) == 0) {
+            in_function = true;
+            continue;
+        }
+        
+        // Skip function body content (already handled)
+        if (in_function) {
+            if (strcmp(p, "}") == 0) {
+                in_function = false;
+            }
             continue;
         }
 
-        // Parse different statement types
+        // Parse main program statements only
         if (is_variable_declaration(p)) {
             parse_variable_declaration(p, out, ctx);
         } else if (is_print_statement(p)) {
@@ -251,6 +556,8 @@ static void parse_main_program(FILE *in, FILE *out, ParserContext *ctx) {
             fputs("}\n", out);
         } else if (is_assignment(p)) {
             parse_assignment(p, out, ctx);
+        } else if (is_standalone_function_call(p)) {
+            parse_standalone_function_call(p, out, ctx);
         }
         // Other statements can be added here
     }
@@ -279,9 +586,12 @@ int build_native(const char *srcPath, const char *outPath) {
     // Parse classes first
     parse_classes(in, c);
     
-    // Parse main program
+    // Parse function definitions
     ParserContext ctx;
     parser_init(&ctx);
+    parse_function_definitions(in, c, &ctx);
+    
+    // Parse main program
     parse_main_program(in, c, &ctx);
     
     // Add string function implementations
@@ -422,6 +732,14 @@ int build_native(const char *srcPath, const char *outPath) {
     
     fclose(in); 
     fclose(c);
+
+    // Show generated C code for debugging before compilation
+    printf("Generated C file: %s\n", tmpc);
+    
+    // Copy to backup for debugging
+    char backup_cmd[256];
+    snprintf(backup_cmd, sizeof(backup_cmd), "cp '%s' '%s.debug'", tmpc, tmpc);
+    system(backup_cmd);
 
     // Compile C code
     char cmd[8192];

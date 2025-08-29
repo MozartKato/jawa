@@ -1,11 +1,19 @@
 // Contoh fungsi dengan parameter a dan b
-gawe tambah(a, b) {
+gawe tambah(a, b) 
+{
     bali a + b
+}
+
+gawe kali(x, y) 
+{
+    bali x * y
 }
 
 // Panggil fungsi
 owahi x = 5
 owahi y = 10
-owahi hasil = tambah(x, y)
+owahi hasil_tambah = tambah(x, y)
+owahi hasil_kali = kali(x, y)
 
-cithak("Hasil penjumlahan: " + hasil)
+cithak("Hasil penjumlahan: " + hasil_tambah)
+cithak("Hasil perkalian: " + hasil_kali)

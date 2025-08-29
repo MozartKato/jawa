@@ -1,0 +1,77 @@
+// Demo fitur-fitur yang BEKERJA dengan baik di Jawa
+// Ini adalah contoh "best practices" untuk bahasa Jawa
+
+cithak("=== DEMO FITUR JAWA YANG STABIL ===")
+
+// 1. Variabel dan operasi dasar
+cithak("\n1. Variabel dan Operasi Dasar:")
+owahi nama = "Bahasa Jawa"
+owahi versi = 1.0
+owahi aktif = bener
+owahi selesai = salah
+
+cithak("Nama: " + nama)
+cithak("Versi: " + versi)  
+cithak("Status aktif: " + aktif)
+cithak("Status selesai: " + selesai)
+
+// 2. String operations yang powerful
+cithak("\n2. String Operations:")
+owahi kalimat = "Jawa Programming Language"
+owahi kalimat_gedhe = kalimat.toUpperCase()
+owahi kalimat_cilik = kalimat.toLowerCase()
+owahi panjang = kalimat.length
+owahi kata = kalimat.split(" ")
+
+cithak("Original: " + kalimat)
+cithak("Uppercase: " + kalimat_gedhe)
+cithak("Lowercase: " + kalimat_cilik)
+cithak("Panjang: " + panjang)
+cithak("Split berhasil: " + (kata != kalimat))
+
+// 3. Conditional logic sederhana
+cithak("\n3. Conditional Logic:")
+owahi angka = 85
+
+yen (angka >= 90) {
+    cithak("Nilai A: Excellent!")
+}
+
+yen (angka >= 80) {
+    cithak("Nilai B: Good!")
+}
+
+yen (angka < 80) {
+    cithak("Perlu perbaikan")
+}
+
+// 4. Error handling dengan conditional
+cithak("\n4. Error Handling:")
+owahi pembagi = 0
+yen (pembagi == 0) {
+    cithak("Error: Tidak bisa membagi dengan nol!")
+}
+
+owahi data_valid = (nama != "") && (versi > 0)
+yen (data_valid) {
+    cithak("Data valid untuk diproses")
+}
+
+// 5. String processing tanpa array indexing
+cithak("\n5. String Processing:")
+owahi email = "user@example.com"
+owahi email_parts = email.split("@")
+// Karena array indexing bermasalah, kita skip bagian ini
+cithak("Email: " + email)
+cithak("Email berisi '@': " + (email.replace("@", "FOUND") != email))
+
+// 6. File operations (basic)
+cithak("\n6. File Operations:")
+owahi berkas_ada = file_ada("config.txt")
+yen (!berkas_ada) {
+    cithak("Config file tidak ditemukan, membuat yang baru...")
+    // Simulasi membuat config
+}
+
+cithak("\n=== DEMO SELESAI ===")
+cithak("Tip: Gunakan pendekatan procedural untuk hasil terbaik!")

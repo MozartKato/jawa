@@ -3,6 +3,8 @@
 *.out
 obj/
 build/
+extension/
+dist/
 
 # Temporary files
 *~

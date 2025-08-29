@@ -39,6 +39,30 @@ bool is_return_statement(const char *line) {
     return strncmp(line, "bali", 4) == 0;
 }
 
+bool is_standalone_function_call(const char *line) {
+    // Look for pattern: identifier followed by opening parenthesis
+    // but not variable declaration or assignment
+    if (is_variable_declaration(line) || is_assignment(line) || is_print_statement(line)) {
+        return false;
+    }
+    
+    // Find opening parenthesis
+    char *paren = strchr(line, '(');
+    if (!paren) return false;
+    
+    // Check if there's a valid identifier before the parenthesis
+    const char *p = line;
+    while (*p && isspace((unsigned char)*p)) p++;
+    
+    if (!isalpha((unsigned char)*p) && *p != '_') return false;
+    
+    // Check identifier is valid
+    while (p < paren && (isalnum((unsigned char)*p) || *p == '_')) p++;
+    while (p < paren && isspace((unsigned char)*p)) p++;
+    
+    return (p == paren);  // Should be exactly at the opening parenthesis
+}
+
 bool is_assignment(const char *line) {
     char *eq_pos = strchr(line, '=');
     if (!eq_pos) return false;
@@ -542,6 +566,15 @@ void parse_assignment(const char *line, FILE *out, ParserContext *ctx) {
         while (name_end > name_start && isspace((unsigned char)*name_end)) *name_end-- = 0;
         
         if (strlen(name_start) > 0) {
+            // Check if this is a 'this.property' assignment
+            char processed_var[128];
+            if (strncmp(name_start, "this.", 5) == 0) {
+                // Convert this.property to this->property
+                snprintf(processed_var, sizeof(processed_var), "this->%s", name_start + 5);
+            } else {
+                strcpy(processed_var, name_start);
+            }
+            
             // Parse expression after =
             char *expr_start = eq_pos + 1;
             while (*expr_start && isspace((unsigned char)*expr_start)) expr_start++;
@@ -555,7 +588,7 @@ void parse_assignment(const char *line, FILE *out, ParserContext *ctx) {
                 lex_next(&L);
                 (void)parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
                 
-                fprintf(out, "%s = %s;\n", name_start, ebuf);
+                fprintf(out, "%s = %s;\n", processed_var, ebuf);
             }
         }
     }
@@ -645,13 +678,61 @@ void parse_function_definition(const char *line, FILE *out, ParserContext *ctx) 
                 if (!first) {
                     strcat(c_param_list, ", ");
                 }
-                // Default to double for parameters
-                strcat(c_param_list, "double ");
-                strcat(c_param_list, param);
+                
+                // Parse parameter with type annotation: "name: type" or just "name"
+                char param_name[128] = {0};
+                char param_type[32] = "double"; // default
+                
+                char *colon = strchr(param, ':');
+                if (colon) {
+                    // Has type annotation
+                    int name_len = colon - param;
+                    if (name_len > 0 && name_len < 127) {
+                        strncpy(param_name, param, name_len);
+                        param_name[name_len] = 0;
+                        
+                        // Trim spaces from name
+                        char *name_end = param_name + strlen(param_name) - 1;
+                        while (name_end > param_name && isspace((unsigned char)*name_end)) *name_end-- = 0;
+                        
+                        // Extract type
+                        char *type_start = colon + 1;
+                        while (*type_start && isspace((unsigned char)*type_start)) type_start++;
+                        
+                        if (strlen(type_start) > 0) {
+                            strncpy(param_type, type_start, 31);
+                            param_type[31] = 0;
+                            
+                            // Trim spaces from type
+                            char *type_end = param_type + strlen(param_type) - 1;
+                            while (type_end > param_type && isspace((unsigned char)*type_end)) *type_end-- = 0;
+                        }
+                    }
+                } else {
+                    // No type annotation, just name
+                    strncpy(param_name, param, 127);
+                    param_name[127] = 0;
+                }
+                
+                // Map Jawa type to C type
+                const char *c_param_type = "double";
+                if (strcmp(param_type, "int") == 0) c_param_type = "int";
+                else if (strcmp(param_type, "double") == 0) c_param_type = "double";
+                else if (strcmp(param_type, "bool") == 0) c_param_type = "bool";
+                else if (strcmp(param_type, "string") == 0) c_param_type = "const char*";
+                
+                strcat(c_param_list, c_param_type);
+                strcat(c_param_list, " ");
+                strcat(c_param_list, param_name);
                 first = 0;
                 
                 // Register parameter as a variable in the parser context
-                parser_add_var(ctx, param, TY_DOUBLE);
+                Ty param_ty = TY_DOUBLE;
+                if (strcmp(param_type, "int") == 0) param_ty = TY_INT;
+                else if (strcmp(param_type, "string") == 0) param_ty = TY_STRING;
+                else if (strcmp(param_type, "bool") == 0) param_ty = TY_BOOL;
+                
+                parser_add_var(ctx, param_name, param_ty);
             }
             
             token = strtok(NULL, ",");
@@ -682,4 +763,17 @@ void parse_return_statement(const char *line, FILE *out, ParserContext *ctx) {
     (void)parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
     
     fprintf(out, "return %s;\n", ebuf);
+}
+
+void parse_standalone_function_call(const char *line, FILE *out, ParserContext *ctx) {
+    // Parse the entire line as a function call expression
+    char ebuf[4096];
+    int oi = 0;
+    ebuf[0] = 0;
+    
+    Lexer L = {.p = line};
+    lex_next(&L);
+    (void)parse_expr(&L, ebuf, sizeof(ebuf), &oi, ctx);
+    
+    fprintf(out, "%s;\n", ebuf);
 }

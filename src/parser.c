@@ -92,6 +92,37 @@ static Ty parse_primary(Lexer *L, char *out, size_t outsz, int *oi, ParserContex
         return TY_STRING; 
     }
     if (t.kind == T_IDENT) {
+        // Check for 'this' keyword in OOP context
+        if (strcmp(t.lex, "this") == 0) {
+            lex_next(L); // consume 'this'
+            
+            // Must be followed by dot notation
+            if (L->cur.kind == T_DOT) {
+                lex_next(L); // consume '.'
+                
+                if (L->cur.kind == T_IDENT) {
+                    char property_name[64];
+                    strncpy(property_name, L->cur.lex, sizeof(property_name) - 1);
+                    property_name[sizeof(property_name) - 1] = '\0';
+                    lex_next(L);
+                    
+                    // Generate this->property_name access
+                    sb_add(out, outsz, oi, "this->%s", property_name);
+                    
+                    // Return appropriate type (for now default to string, we'll improve this)
+                    return TY_STRING;
+                } else {
+                    // Error: expected property name after 'this.'
+                    sb_add(out, outsz, oi, "this");
+                    return TY_UNK;
+                }
+            } else {
+                // Error: 'this' must be followed by '.'
+                sb_add(out, outsz, oi, "this");
+                return TY_UNK;
+            }
+        }
+        
         // Check for built-in string functions and method calls
         if (strcmp(t.lex, "cithak") == 0 ||
             strcmp(t.lex, "toUpperCase") == 0 || strcmp(t.lex, "toLowerCase") == 0 ||

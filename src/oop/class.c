@@ -123,11 +123,57 @@ void generate_class_c_code(FILE *out, JawaClass *cls) {
     // Generate methods
     JawaMethod *method = cls->methods;
     while (method) {
-        fprintf(out, "%s %s_%s(%s* self", method->return_type, cls->name, method->name, cls->name);
+        fprintf(out, "%s %s_%s(%s* this", method->return_type, cls->name, method->name, cls->name);
         if (strlen(method->params) > 0) {
             fprintf(out, ", %s", method->params);
         }
-        fprintf(out, ") {\n%s\n}\n\n", method->body);
+        fprintf(out, ") {\n");
+        
+        // Process method body line by line
+        char body_copy[2048];
+        strcpy(body_copy, method->body);
+        
+        char *line = strtok(body_copy, "\n");
+        while (line) {
+            // Skip closing braces that are part of method boundary  
+            if (strcmp(line, "}") == 0 || strcmp(line, "    }") == 0) {
+                line = strtok(NULL, "\n");
+                continue;
+            }
+            
+            char processed_line[512];
+            strcpy(processed_line, line);
+            
+            // Simple replacements for OOP context
+            // Replace 'bali ' with 'return ' at start of line
+            if (strncmp(processed_line, "bali ", 5) == 0) {
+                char temp[512];
+                strcpy(temp, "return ");
+                strcat(temp, processed_line + 5);
+                strcpy(processed_line, temp);
+            }
+            
+            // Replace 'this.' with 'this->'
+            char *dot_pos = processed_line;
+            while ((dot_pos = strstr(dot_pos, "this.")) != NULL) {
+                memmove(dot_pos + 6, dot_pos + 5, strlen(dot_pos) - 4);
+                memcpy(dot_pos + 4, "->", 2);
+                dot_pos += 6;
+            }
+            
+            // Write processed line with proper indentation
+            fprintf(out, "    %s", processed_line);
+            if (processed_line[strlen(processed_line)-1] != ';' && 
+                processed_line[strlen(processed_line)-1] != '{' &&
+                processed_line[strlen(processed_line)-1] != '}') {
+                fprintf(out, ";");
+            }
+            fprintf(out, "\n");
+            
+            line = strtok(NULL, "\n");
+        }
+        
+        fprintf(out, "}\n\n");
         method = method->next;
     }
 }

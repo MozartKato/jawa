@@ -148,20 +148,168 @@ menawa (pembagi == 0)
 }
 ```
 
+## Definisi Fungsi
+
+### Sintaks Fungsi
+```
+// Mendefinisikan fungsi dengan keyword 'gawe'
+gawe nama_fungsi(parameter1: tipe1, parameter2: tipe2): tipe_return
+{
+    // Isi fungsi
+    bali nilai_return  // Return menggunakan keyword 'bali'
+}
+
+// Contoh fungsi sederhana
+gawe tambah(a: int, b: int): int
+{
+    bali a + b
+}
+
+// Contoh fungsi dengan string
+gawe sapa(nama: string): string
+{
+    bali "Halo " + nama
+}
+
+// Contoh fungsi tanpa return value
+gawe cetak_pesan(pesan: string): void
+{
+    cithak(pesan)
+}
+```
+
+### Tipe Data untuk Parameter dan Return
+```
+int        // Bilangan bulat
+double     // Bilangan desimal
+string     // Teks/string
+bool       // Boolean (bener/salah)
+void       // Tidak ada return value
+```
+
+### Pemanggilan Fungsi
+```
+// Memanggil fungsi
+owahi hasil = tambah(5, 10)
+owahi ucapan = sapa("Budi")
+cetak_pesan("Selamat datang")
+```
+
+## Pemrograman Berorientasi Objek (OOP)
+
+### Definisi Kelas
+```
+// Mendefinisikan kelas dengan keyword 'bolo'
+bolo NamaKelas
+{
+    // Properti kelas dengan keyword 'owahi'
+    owahi nama_properti: tipe
+    owahi properti_lain: tipe
+    
+    // Method/fungsi dalam kelas
+    gawe nama_method(parameter: tipe): tipe_return
+    {
+        // Akses properti menggunakan 'this'
+        this.nama_properti = nilai
+        bali this.properti_lain
+    }
+}
+```
+
+### Contoh Kelas Lengkap
+```
+// Definisi kelas Person
+bolo Person
+{
+    owahi name: string
+    owahi age: int
+    
+    // Constructor
+    gawe constructor(n: string, a: int): void
+    {
+        this.name = n
+        this.age = a
+    }
+    
+    // Method untuk mendapatkan info
+    gawe info(): string
+    {
+        bali "Nama: " + this.name + ", Umur: " + this.age
+    }
+    
+    // Method untuk mengubah nama
+    gawe ubah_nama(nama_baru: string): void
+    {
+        this.name = nama_baru
+    }
+}
+```
+
+### Penggunaan Keyword `this`
+```
+// Di dalam method kelas, gunakan 'this' untuk akses properti
+gawe set_nilai(nilai: int): void
+{
+    this.properti = nilai        // Set properti
+    owahi temp = this.properti   // Get properti
+}
+```
+
+### Pemanggilan Method Kelas
+```
+// Cara memanggil method kelas (manual)
+Person person1;
+person1.name = "Alice";
+person1.age = 30;
+
+// Memanggil method dengan format: KelasManajer_method(&objek)
+cithak(Person_info(&person1))
+```
+
 ## Keterbatasan
 
 Berdasarkan pengujian, beberapa fitur bahasa yang tidak berhasil dijalankan:
 
-1. **Sintaks OOP**: Definisi kelas (`bolo`), pewarisan (`warisi`), constructor, penggunaan `this`.
-2. **Tipe Data Kompleks**: Array dengan `array<tipe>` dan Map dengan sintaks `{}`.
-3. **Try-Catch**: Blok `nyoba`, `cekel`, dan `pungkasan` tidak berfungsi.
-4. **Statement `liyane`**: Sintaks `else` yang ditulis sebagai `liyane` tidak berfungsi dengan baik.
+1. **Constructor Otomatis**: Instansiasi objek dengan `Person("Alice", 30)` belum sepenuhnya berfungsi.
+2. **Method Call Syntax**: Sintaks `objek.method()` belum didukung, harus menggunakan `Kelas_method(&objek)`.
+3. **Tipe Data Kompleks**: Array dengan `array<tipe>` dan Map dengan sintaks `{}`.
+4. **Try-Catch**: Blok `nyoba`, `cekel`, dan `pungkasan` tidak berfungsi.
+5. **Statement `liyane`**: Sintaks `else` yang ditulis sebagai `liyane` tidak berfungsi dengan baik.
 
 ## Rekomendasi Coding
 
 Untuk keberhasilan kode Jawa:
-1. Gunakan struktur data sederhana dengan pendekatan prosedural
-2. Hindari definisi fungsi kompleks
+
+### Fungsi dan OOP
+1. **Gunakan definisi fungsi**: Keyword `gawe` untuk mendefinisikan fungsi dengan type annotations
+2. **Implementasi OOP**: Kelas dengan `bolo`, properti dengan `owahi`, dan method dengan `gawe`
+3. **Gunakan `this`**: Untuk akses properti di dalam method kelas
+4. **Return statement**: Gunakan `bali` untuk mengembalikan nilai dari fungsi
+
+### Struktur Kode
+1. Gunakan struktur data sederhana dengan pendekatan prosedural dan OOP
+2. Pecah fungsi kompleks menjadi fungsi-fungsi kecil
 3. Gunakan pemeriksaan kondisional untuk error handling
 4. Pecah string yang panjang menjadi beberapa variabel terpisah
 5. Gunakan variabel dan struktur kontrol dasar
+
+### Contoh Kode Yang Berfungsi
+```
+// Fungsi sederhana
+gawe hitung_luas(panjang: double, lebar: double): double
+{
+    bali panjang * lebar
+}
+
+// Kelas sederhana  
+bolo Mobil
+{
+    owahi merk: string
+    owahi tahun: int
+    
+    gawe info(): string
+    {
+        bali "Mobil " + this.merk + " tahun " + this.tahun
+    }
+}
+```
