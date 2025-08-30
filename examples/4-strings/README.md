@@ -52,7 +52,7 @@ string[] pecah = teks.split(" ");       // ["Jawa", "Programming", "Language"]
 ## How to Run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/4-strings/[filename].jw
+./jawa mlayu examples/4-strings/[filename].jw
 ```
 
 ## Related Features:

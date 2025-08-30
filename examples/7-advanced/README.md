@@ -58,7 +58,7 @@ string[] javanese_split = teks.pisah(" ");
 ## How to Run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/7-advanced/[filename].jw
+./jawa mlayu examples/7-advanced/[filename].jw
 ```
 
 ## Prerequisites:

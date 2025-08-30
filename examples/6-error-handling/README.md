@@ -59,7 +59,7 @@ if (angka != 0) {
 ## How to Run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/6-error-handling/[filename].jw
+./jawa mlayu examples/6-error-handling/[filename].jw
 ```
 
 ## Common Error Scenarios:

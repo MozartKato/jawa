@@ -32,10 +32,10 @@ gawe double kali(double x, double y) {
 }
 ```
 
-## How to Run:
+## How to run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/2-functions/[filename].jw
+./jawa mlayu examples/2-functions/[filename].jw
 ```
 
 ## Related Features:

@@ -48,7 +48,7 @@ bolo Kendaraan {
 ## How to Run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/3-oop/[filename].jw
+./jawa mlayu examples/3-oop/[filename].jw
 ```
 
 ## Related Features:

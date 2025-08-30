@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
         printf("Jawa Programming Language v%s\n", JAWA_VERSION);
         printf("Usage:\n");
         printf("  %s build input.jw output_bin    - Kompilasi file .jw ke biner\n", argv[0]);
-        printf("  %s run input.jw                 - Jalankan file .jw tanpa kompilasi\n", argv[0]);
+        printf("  %s mlayu input.jw                 - Jalankan file .jw tanpa kompilasi\n", argv[0]);
         printf("  %s paket <perintah> [argumen]   - Kelola paket Jawa\n", argv[0]);
         printf("  %s version                      - Tampilkan versi\n", argv[0]);
         return 1;
@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
         printf("Jawa Programming Language v%s\n", JAWA_VERSION);
         printf("Usage:\n");
         printf("  %s build input.jw output_bin    - Kompilasi file .jw ke biner\n", argv[0]);
-        printf("  %s run input.jw                 - Jalankan file .jw tanpa kompilasi\n", argv[0]);
+        printf("  %s mlayu input.jw                 - Jalankan file .jw tanpa kompilasi\n", argv[0]);
         printf("  %s paket <perintah> [argumen]   - Kelola paket Jawa\n", argv[0]);
         printf("  %s version                      - Tampilkan versi\n", argv[0]);
         return 1;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         if (argc != 4) { fprintf(stderr, "build mode needs input & output\n"); return 1; }
         int rc = build_native(argv[2], argv[3]);
         return rc;
-    } else if (strcmp(argv[1], "run") == 0) {
+    } else if (strcmp(argv[1], "mlayu") == 0) {
         // Implementasi sederhana untuk menjalankan file langsung
         char temp_out[256];
         sprintf(temp_out, "%s.temp.bin", argv[2]);

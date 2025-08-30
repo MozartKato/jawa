@@ -28,7 +28,7 @@ bool is_while_statement(const char *line) {
 }
 
 bool is_for_statement(const char *line) {
-    return strncmp(line, "ngulang", 7) == 0 && isspace((unsigned char)line[7]);
+    return strncmp(line, "ngulang", 7) == 0 && (isspace((unsigned char)line[7]) || line[7] == '(');
 }
 
 bool is_function_definition(const char *line) {

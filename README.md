@@ -10,44 +10,31 @@
 ## 🌟 Features
 
 ### ✅ **Core Language Features**
-- **Variable Declaration**: `owahi` (var/let) with type inference
-- **Constants**: `ajek` (const) for immutable values  
-- **Print Statements**: `cithak` (print/output)
-- **Conditional Flow**: `yen`/`liyane`/`liyane yen` (if/else/else if)
-- **Loops**: `ngulang` (for), `menawa` (while)
-- **Functions**: `gawe` (function) with `bali` (return)
-- **Error Handling**: `nyoba`/`cekel`/`pungkasan` (try/catch/finally)
-- **Boolean Values**: `bener`/`salah` (true/false)
-- **File Input/Output**: File operations and management
-- **Object-Oriented Programming**: Class definition, inheritance
-- **Package Management**: Dependency management system
+- **Variable Declaration**: `owahi` (var/let) with type inference ✅
+- **Print Statements**: `cithak` / `tulis` (print/output) ✅
+- **Basic Loops**: `ngulang` (for) ✅  
+- **Functions**: `gawe` (function) with `bali` (return) ✅
+- **Object-Oriented Programming**: `bolo` (class) with inheritance ✅
+- **Boolean Values**: `bener`/`salah` (true/false) ✅
+- **String Operations**: Comprehensive string manipulation ✅
 
 ### ✅ **String Operations (Dual Syntax)**
-| English Syntax | Javanese Syntax | Function |
-|---------------|----------------|-----------|
-| `.toUpperCase()` | `.menyang_gedhe()` | Convert to uppercase |
-| `.toLowerCase()` | `.menyang_cilik()` | Convert to lowercase |
-| `.split(",")` | `.pisah(",")` | Split string by delimiter |
-| `.replace(a,b)` | `.ganti(a,b)` | Replace substring |
-| `.substring(0,5)` | `.potong(0,5)` | Extract substring |
-| `.length` / `.length()` | `.dawane` | String length |
-| `concat(a,b)` | `gabung(a,b)` | Concatenate strings |
-| `.trim()` | `.resiki()` | Remove whitespace |
-| `.contains("text")` | `.ngandhut("text")` | Check substring existence |
-| `.toCharArray()` | `.ke_karakter()` | Convert to character array |
+| English Syntax | Javanese Syntax | Status | Function |
+|---------------|----------------|---------|-----------|
+| `.toUpperCase()` | `.menyang_gedhe()` | ✅ | Convert to uppercase |
+| `.toLowerCase()` | `.menyang_cilik()` | ✅ | Convert to lowercase |
+| `.replace(a,b)` | `.ganti(a,b)` | ✅ | Replace substring |
+| `.substring(0,5)` | `.potong(0,5)` | ✅ | Extract substring |
+| `.length` | `.dawane` | ✅ | String length |
+| `.split(",")` | `.pisah(",")` | ⚠️ | Split string (needs fix) |
 
-### ✅ **Array Operations**
-- **Creation**: Via string splitting (`split()` / `pisah()`)
-- **Indexing**: `array[index]` syntax
-- **Length Property**: `.length` / `.dawane`
-- **Loop Integration**: Full support in `ngulang` loops
-
-### ✅ **Advanced Features**
-- **Method Chaining**: `text.replace("a","b").toUpperCase().substring(0,10)`
-- **Auto Type Conversion**: Automatic int/bool to string in concatenation
-- **String Concatenation**: `"text" + variable + "more"`
-- **Complex Expressions**: Nested operations with proper precedence
-- **Cross-Platform Support**: Windows, macOS, and Linux compatibility
+### ✅ **Working Features**
+- **Basic Programs**: Hello world, variables, print statements
+- **String Manipulation**: Case conversion, substring, replace  
+- **Functions**: Custom functions with parameters and return values
+- **Object-Oriented**: Classes with properties and methods
+- **Loops**: Basic for loops without complex expressions
+- **Clean Compilation**: No debug output, production ready
 - **Package Management**: Import and manage third-party libraries
 
 ## 🚀 Quick Start
@@ -62,27 +49,40 @@ cd jawa
 make
 
 # Run an example
-./jawa run examples/quick_demo.jw
+./jawa mlayu examples/1-basics/simple.jw
 
-# Or compile and run separately
-./jawa build examples/quick_demo.jw demo
-./demo
+# Or compile and run separately  
+./jawa build examples/1-basics/simple.jw hello_program
+./hello_program
 ```
 
-### Package Management
-```bash
-# Initialize a new project
-jawa paket init
+## 🚧 Roadmap
 
-# Install a package
-jawa paket pasang matematika@1.0.0
+### ✅ Completed (v0.3)
+- [x] Basic syntax and keywords
+- [x] String operations (dual language)
+- [x] Basic loop constructs (`ngulang`)
+- [x] Function definitions (`gawe` functions)
+- [x] Object-oriented features (`bolo` classes)
+- [x] Method chaining (basic)
+- [x] Production-ready compilation
+- [x] Organized examples structure
 
-# List installed packages
-jawa paket daftar
+### 🔄 In Progress (v0.4)
+- [ ] Array operations (split/pisah function fixing)
+- [ ] Control flow statements (if/else conditions)
+- [ ] Complex string concatenation with integers
+- [ ] While loops (`menawa`)
+- [ ] Error handling improvements
 
-# Use packages in code
-impor "matematika" sebagai mtk
-```
+### 📋 Planned (v1.0)
+- [ ] Constants (`ajek`) 
+- [ ] Error handling (`nyoba`/`cekel`)
+- [ ] File I/O operations
+- [ ] Module system (`impor`/`ekspor`)
+- [ ] Package manager
+- [ ] Standard library
+- [ ] IDE support
 
 ### Hello World
 ```jawa
@@ -94,233 +94,71 @@ owahi nama = "Dunia"
 cithak("Halo " + nama)
 ```
 
-### String Operations
+### String Operations (Working)
 ```jawa
 # English syntax
 owahi text = "Hello World"
 owahi upper = text.toUpperCase()
-owahi words = text.split(" ")
+cithak("Result: " + upper)
 
 # Javanese syntax  
 owahi teks = "Sugeng Enjing"
 owahi gedhe = teks.menyang_gedhe()
-owahi tembung = teks.pisah(" ")
+cithak("Hasil: " + gedhe)
 
-# Mixed usage
-owahi hasil = text.ganti("World", "Jawa").menyang_gedhe()
-cithak(hasil)  # Output: HELLO JAWA
+# Replace operations
+owahi hasil = text.ganti("World", "Jawa")
+cithak("Changed: " + hasil)
 ```
 
-### Arrays and Loops
+### Basic Loops
 ```jawa
-# Array operations
-owahi data = "apel,jeruk,mangga".pisah(",")
-owahi jumlah = data.dawane
-
-# Loop through array
-ngulang (owahi i = 0; i < jumlah; i++) {
-    cithak("Buah ke-" + i + ": " + data[i])
-}
-
-# While loop
-owahi counter = 0
-menawa (counter < 3) {
-    cithak("Counter: " + counter)
-    counter = counter + 1
+# Simple for loop
+ngulang (owahi i = 0; i < 5; i++) {
+    cithak("Iteration")
 }
 ```
 
-### Control Flow
+## 📚 Working Examples
+
+### Basic Program
 ```jawa
-owahi nilai = 85
+# File: basic_demo.jw
+cithak("=== Jawa Programming Demo ===")
 
-yen (nilai >= 90) {
-    cithak("Grade: A")
-} liyane yen (nilai >= 80) {
-    cithak("Grade: B")  
-} liyane {
-    cithak("Grade: C")
-}
+owahi nama = "Sari"
+owahi status = "Programming"
 
-# Boolean operations
-owahi aktif = bener
-owahi premium = salah
-
-yen (aktif && !premium) {
-    cithak("Basic user")
-}
-```
-
-## 📚 Language Guide
-
-### Variables and Types
-```jawa
-# Type inference (recommended)
-owahi nama = "Jawa"           # string
-owahi umur = 25               # int
-owahi tinggi = 175.5          # double
-owahi aktif = bener           # bool
-
-# Explicit typing (optional)
-owahi kota: string = "Yogyakarta"
-owahi populasi: int = 400000
-
-# Constants
-ajek PI = 3.14159
-ajek APP_NAME = "Jawa Programming"
+cithak("Nama: " + nama)
+cithak("Status: " + status)
 ```
 
 ### String Manipulation
 ```jawa
+# File: string_demo.jw
 owahi kalimat = "Jawa Programming Language"
 
 # Length
-cithak(kalimat.length())      # Method call: 25
-cithak(kalimat.dawane)        # Property access: 25
+cithak("Length: " + int_to_string(kalimat.dawane))
 
 # Case conversion
-cithak(kalimat.toUpperCase())     # JAWA PROGRAMMING LANGUAGE
-cithak(kalimat.menyang_cilik())   # jawa programming language
-
-# Substring
-cithak(kalimat.substring(0, 4))   # Jawa
-cithak(kalimat.potong(5, 16))     # Programming
+cithak("Upper: " + kalimat.toUpperCase())
+cithak("Lower: " + kalimat.menyang_cilik())
 
 # Replace
-cithak(kalimat.replace("Programming", "Bahasa"))  # Jawa Bahasa Language
-cithak(kalimat.ganti("Language", "Modern"))       # Jawa Programming Modern
-
-# Splitting
-owahi kata = kalimat.split(" ")    # ["Jawa", "Programming", "Language"]
-owahi bagian = kalimat.pisah(" ")  # Same result with Javanese syntax
-
-# Method chaining
-owahi result = kalimat.ganti("Programming", "Modern")
-                     .menyang_gedhe()
-                     .potong(0, 10)
-cithak(result)  # JAWA MODER
+owahi replaced = kalimat.ganti("Programming", "Modern")
+cithak("Replaced: " + replaced)
 ```
 
-### Array Operations
+### Function Examples
 ```jawa
-# Array creation
-owahi colors = "red,green,blue".split(",")
-owahi warna = "abang,ijo,biru".pisah(",")
-
-# Array access
-cithak(colors[0])              # red
-cithak(warna[warna.dawane-1])  # biru
-
-# Array length
-cithak(colors.length)          # 3
-cithak(warna.dawane)           # 3
-
-# Array processing
-ngulang (owahi i = 0; i < colors.dawane; i++) {
-    cithak("Color " + i + ": " + colors[i])
-}
-```
-
-### Loop Constructs
-```jawa
-# For loop variations
-ngulang (owahi i = 0; i < 10; i++) {          # Standard increment
-    cithak("Count: " + i)
+# File: function_demo.jw
+gawe int tambah(int a, int b) {
+    bali a + b;
 }
 
-ngulang (owahi j = 0; j < 10; j = j + 2) {    # Custom increment
-    cithak("Even: " + j)
-}
-
-# While loop
-owahi x = 0
-menawa (x < 5) {
-    cithak("Value: " + x)
-    x = x + 1
-}
-```
-
-### Type Conversion
-```jawa
-# Automatic conversion in string concatenation
-owahi angka = 42
-owahi desimal = 3.14
-owahi boolean = bener
-
-cithak("Number: " + angka)     # Number: 42
-cithak("Pi: " + desimal)       # Pi: 3.14
-cithak("Status: " + boolean)   # Status: true
-
-# Complex expressions
-owahi x = 10
-owahi y = 5
-cithak("Result: " + (x + y))   # Result: 15 (auto-converted)
-```
-
-## 🎯 Examples
-
-### Basic Program
-```jawa
-# File: hello.jw
-cithak("=== Jawa Programming Demo ===")
-
-owahi nama = "Sari"
-owahi umur = 25
-owahi kota = "Yogyakarta"
-
-cithak("Nama: " + nama)
-cithak("Umur: " + umur + " tahun")
-cithak("Kota: " + kota)
-
-yen (umur >= 17) {
-    cithak("Status: Dewasa")
-} liyane {
-    cithak("Status: Anak-anak")
-}
-```
-
-### String Processing
-```jawa
-# File: text_processor.jw
-owahi input = "  Jawa Programming Language  "
-
-# Clean and process
-owahi clean = input.ganti(" ", "_")
-                   .menyang_cilik()
-                   .potong(2, input.dawane - 2)
-
-cithak("Original: '" + input + "'")
-cithak("Processed: '" + clean + "'")
-
-# Split and analyze
-owahi words = input.split(" ")
-cithak("Word count: " + words.dawane)
-
-ngulang (owahi i = 0; i < words.length; i++) {
-    yen (words[i].length > 0) {
-        cithak("Word " + i + ": " + words[i])
-    }
-}
-```
-
-### Data Processing
-```jawa
-# File: csv_processor.jw
-owahi csv_data = "name,age,city|John,25,NYC|Jane,30,LA"
-owahi rows = csv_data.pisah("|")
-owahi headers = rows[0].split(",")
-
-cithak("CSV Processing:")
-cithak("Headers: " + headers.length + " columns")
-
-ngulang (owahi row = 1; row < rows.dawane; row++) {
-    owahi data = rows[row].split(",")
-    cithak("Record " + row + ":")
-    
-    ngulang (owahi col = 0; col < headers.length; col++) {
-        cithak("  " + headers[col] + ": " + data[col])
-    }
-}
+owahi hasil = tambah(10, 5)
+cithak("Result: " + int_to_string(hasil))
 ```
 
 ## 🔧 Compilation and Usage
@@ -340,6 +178,9 @@ make clean
 
 ### Command Line Usage
 ```bash
+# Run Jawa source directly
+./jawa mlayu input_file.jw
+
 # Compile Jawa source to executable
 ./jawa build input_file.jw output_name
 
@@ -361,13 +202,17 @@ jawa/
 │   ├── statements.c       # Statement parser
 │   ├── native.c           # C code generation
 │   ├── string_ops.c       # String operations
-│   └── oop/               # OOP features (future)
+│   └── oop/               # OOP implementation
 ├── include/               # Header files
-├── examples/              # Example programs
-│   ├── complete_demo.jw   # Full feature demonstration
-│   ├── string_operations.jw # String handling examples
-│   ├── arrays_loops.jw    # Array and loop examples
-│   └── control_flow.jw    # Conditional statements
+├── examples/              # Organized example programs
+│   ├── 1-basics/          # Basic language features
+│   ├── 2-functions/       # Function examples
+│   ├── 3-oop/             # Object-oriented examples
+│   ├── 4-strings/         # String manipulation
+│   ├── 5-file-operations/ # File I/O examples
+│   ├── 6-error-handling/  # Error handling patterns
+│   └── 7-advanced/        # Advanced features
+├── extension/             # VS Code language extension
 ├── Makefile              # Build configuration
 └── README.md             # This file
 ```

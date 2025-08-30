@@ -609,6 +609,15 @@ int build_native(const char *srcPath, const char *outPath) {
     fputs("    return result;\n", c);
     fputs("}\n\n", c);
     
+    // Add print function implementations
+    fputs("// Print function implementations\n", c);
+    fputs("void tulis(const char* text) {\n", c);
+    fputs("    if (text) printf(\"%s\\n\", text);\n", c);
+    fputs("}\n\n", c);
+    fputs("void cithak(const char* text) {\n", c);
+    fputs("    if (text) printf(\"%s\\n\", text);\n", c);
+    fputs("}\n\n", c);
+    
     fputs("char* string_toLowerCase(const char* str) {\n", c);
     fputs("    if (!str) return NULL;\n", c);
     fputs("    int len = strlen(str);\n", c);
@@ -734,9 +743,6 @@ int build_native(const char *srcPath, const char *outPath) {
     
     fclose(in); 
     fclose(c);
-
-    // Show generated C code
-    printf("Generated C file: %s\n", tmpc);
 
     // Compile C code
     char cmd[8192];

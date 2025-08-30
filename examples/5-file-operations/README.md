@@ -54,7 +54,7 @@ if (file_exists("data.txt")) {
 ## How to Run:
 ```bash
 cd /path/to/jawa
-./jawa run examples/5-file-operations/[filename].jw
+./jawa mlayu examples/5-file-operations/[filename].jw
 ```
 
 ## Prerequisites:

@@ -1,10 +1,13 @@
 # Compiled binaries and objects
 *.o
 *.out
+*.exe
 obj/
 build/
-extension/
 dist/
+
+# Main executable
+jawa
 
 # Temporary files
 *~
@@ -12,30 +15,53 @@ dist/
 *.bak
 *.swp
 *.swo
+*.temp.*
 
-# Generated C files (keep only source .c in src/)
-*.c
-!src/*.c
-!jawa.c
+# Generated C files from compilation
+*.jw.temp.bin.c
+*.jw.*.c
+examples/*.c
+test*.c
+debug*.c
+kontol.jw.*
+simple_test.jw.*
+minimal_test.jw.*
+
+# VS Code extension
+extension/jawa-language-*.vsix
 
 # IDE files
 .vscode/
 .idea/
 *.code-workspace
+*.sublime-*
 
 # System files
 .DS_Store
 Thumbs.db
+.directory
 
 # Log files
 *.log
+debug.log
 
 # Test outputs
 test_output/
 debug_output/
+examples/archived/
 
 # Backup files
 *_backup.*
+*.backup
 
-examples/archived
-jawa
+# Package manager cache (future feature)
+.jawa_cache/
+jawa_modules/
+
+# User test files
+test_*.jw
+debug_*.jw
+kontol.jw
+simple_*.jw
+minimal_*.jw
+basic_test.jw

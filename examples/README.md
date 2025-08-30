@@ -46,37 +46,37 @@ Examples are now organized into categorized folders for better learning progress
 - **data_structure_fix.jw** - Optimized data operations  
 - **localization_test.jw** - Multi-language support  
 
-## 🚀 How to Run Examples
+## 🚀 How to  Examples
 
-To run any example, use:
+To  any example, use:
 
 ```bash
 cd /path/to/jawa
-./jawa run examples/[category]/[filename].jw
+./jawa  examples/[category]/[filename].jw
 ```
 
 Examples:
 ```bash
 # Basic examples
-./jawa run examples/1-basics/simple.jw
-./jawa run examples/1-basics/quick_demo.jw
+./jawa  examples/1-basics/simple.jw
+./jawa  examples/1-basics/quick_demo.jw
 
 # Function examples  
-./jawa run examples/2-functions/fungsi_demo.jw
+./jawa  examples/2-functions/fungsi_demo.jw
 
 # OOP examples
-./jawa run examples/3-oop/oop_demo_fix.jw
+./jawa  examples/3-oop/oop_demo_fix.jw
 
 # String operations
-./jawa run examples/4-strings/string_operations.jw
+./jawa  examples/4-strings/string_operations.jw
 
 # Advanced features
-./jawa run examples/7-advanced/language_comparison.jw
+./jawa  examples/7-advanced/language_comparison.jw
 ```
 
 ## ✅ Verified Status
 
-**ALL EXAMPLES TESTED AND WORKING** - No compilation or runtime errors!
+**ALL EXAMPLES TESTED AND WORKING** - No compilation or time errors!
 - `language_comparison.jw` - Perbandingan dengan bahasa pemrograman lain
 - `localization_test.jw` - Penggunaan karakter khusus dan lokalisasi
 - `input_demo.jw` - Interaksi dengan input pengguna
@@ -134,7 +134,7 @@ kelas Kendaraan {
     }
 }
 
-kelas Mobil turunan Kendaraan {
+kelas Mobil tuan Kendaraan {
     owahi jumlahRoda = 4
 }
 ```

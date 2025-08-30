@@ -1,0 +1,42 @@
+{
+  "name": "jawa-language",
+  "displayName": "Jawa Programming Language",
+  "description": "Language support for Jawa Programming Language",
+  "version": "0.1.0",
+  "publisher": "jawa-team",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "icon": "images/logo.png",
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jawa",
+        "aliases": [
+          "Jawa",
+          "jawa"
+        ],
+        "extensions": [
+          ".jw"
+        ],
+        "configuration": "./language-configuration/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jawa",
+        "scopeName": "source.jawa",
+        "path": "./syntaxes/jawa.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "jawa",
+        "path": "./snippets/jawa.json"
+      }
+    ]
+  }
+}
