@@ -233,10 +233,12 @@ static void parse_classes(FILE *in, FILE *out) {
                 
                 // Store method info for later when we finish parsing body
                 strncpy(current_method_name, method_name, sizeof(current_method_name) - 1);
-                strncpy(current_method_params, method_params, sizeof(current_method_params) - 1);
-                strncpy(current_method_return_type, method_return_type, sizeof(current_method_return_type) - 1);
                 current_method_name[sizeof(current_method_name) - 1] = 0;
+                
+                strncpy(current_method_params, method_params, sizeof(current_method_params) - 1);
                 current_method_params[sizeof(current_method_params) - 1] = 0;
+                
+                strncpy(current_method_return_type, method_return_type, sizeof(current_method_return_type) - 1);
                 current_method_return_type[sizeof(current_method_return_type) - 1] = 0;
                 
                 in_method = true;
@@ -733,13 +735,8 @@ int build_native(const char *srcPath, const char *outPath) {
     fclose(in); 
     fclose(c);
 
-    // Show generated C code for debugging before compilation
+    // Show generated C code
     printf("Generated C file: %s\n", tmpc);
-    
-    // Copy to backup for debugging
-    char backup_cmd[256];
-    snprintf(backup_cmd, sizeof(backup_cmd), "cp '%s' '%s.debug'", tmpc, tmpc);
-    system(backup_cmd);
 
     // Compile C code
     char cmd[8192];

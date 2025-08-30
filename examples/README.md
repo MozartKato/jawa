@@ -1,53 +1,82 @@
-# Contoh Program Bahasa Jawa
+# Jawa Programming Language Examples
 
-Direktori ini berisi berbagai contoh kode dalam Bahasa Jawa untuk mendemonstrasikan fitur-fitur bahasa.
+This directory contains various code examples demonstrating the features of the Jawa programming language. All examples have been **tested and verified to work without errors**.
 
-## Cara Menjalankan Contoh
+## 📁 Organized Structure
 
-Untuk menjalankan contoh, gunakan perintah:
+Examples are now organized into categorized folders for better learning progression:
+
+### [1-basics/](./1-basics/) - Fundamental Examples
+- **simple.jw** - Basic "Hello World" and arithmetic operations  
+- **quick_demo.jw** - Comprehensive language feature demonstration  
+- **data_basic.jw** - Basic data manipulation  
+- **input_demo.jw** - Input/output operations  
+- **best_practices.jw** - Coding best practices  
+- **working_features.jw** - Complete feature overview  
+- **simple_test.jw** - Basic syntax testing  
+
+### [2-functions/](./2-functions/) - Function Examples  
+- **fungsi_demo.jw** - Function definitions with `gawe` keyword  
+- **tes_fungsi.jw** - Function testing and validation  
+
+### [3-oop/](./3-oop/) - Object-Oriented Programming  
+- **oop_demo_fix.jw** - Complete OOP with inheritance and `this` keyword  
+- **oop_demo.jw** - Basic OOP demonstration  
+- **oop_enhanced_demo.jw** - Advanced OOP patterns  
+
+### [4-strings/](./4-strings/) - String Operations  
+- **string_operations.jw** - Comprehensive string manipulation (English + Javanese syntax)  
+- **string_enhanced_demo.jw** - Advanced string features  
+
+### [5-file-operations/](./5-file-operations/) - File I/O  
+- **file_minimal.jw** - Basic file operations  
+- **file_operations.jw** - Complete file manipulation  
+- **file_operations_fix.jw** - Robust file operations with error handling  
+- **file_operations_simple.jw** - Simple file read/write  
+
+### [6-error-handling/](./6-error-handling/) - Error Management  
+- **error_simple.jw** - Basic error handling patterns  
+- **error_handling.jw** - Comprehensive error scenarios  
+- **error_handling_fix.jw** - Improved error handling  
+- **error_handling_fix2.jw** - Advanced error management  
+
+### [7-advanced/](./7-advanced/) - Advanced Features  
+- **language_comparison.jw** - English vs Javanese syntax comparison  
+- **data_structures.jw** - Complex data structures  
+- **data_structure_fix.jw** - Optimized data operations  
+- **localization_test.jw** - Multi-language support  
+
+## 🚀 How to Run Examples
+
+To run any example, use:
 
 ```bash
-./jawa build examples/nama_file.jw nama_output
-./nama_output
+cd /path/to/jawa
+./jawa run examples/[category]/[filename].jw
 ```
 
-Misalnya:
-
+Examples:
 ```bash
-./jawa build examples/string_enhanced_demo.jw string_demo
-./string_demo
+# Basic examples
+./jawa run examples/1-basics/simple.jw
+./jawa run examples/1-basics/quick_demo.jw
+
+# Function examples  
+./jawa run examples/2-functions/fungsi_demo.jw
+
+# OOP examples
+./jawa run examples/3-oop/oop_demo_fix.jw
+
+# String operations
+./jawa run examples/4-strings/string_operations.jw
+
+# Advanced features
+./jawa run examples/7-advanced/language_comparison.jw
 ```
 
-## Daftar Contoh
+## ✅ Verified Status
 
-### Fitur Dasar
-
-- `simple.jw` - Contoh dasar "Hello World" dan sintaks dasar
-- `tes_fungsi.jw` - Demonstrasi fungsi dan parameter
-- `quick_demo.jw` - Demo singkat berbagai fitur dasar
-
-### Struktur Data dan Kontrol Alur
-
-- `data_structures.jw` - Array, map, dan struktur data lainnya
-- `error_handling.jw` - Penanganan kesalahan dengan try-catch
-
-### Fitur String
-
-- `string_operations.jw` - Operasi string dasar
-- `string_enhanced_demo.jw` - Demonstrasi fitur string yang ditingkatkan
-
-### Operasi File
-
-- `file_operations.jw` - Operasi file dasar (baca/tulis)
-
-### OOP
-
-- `oop_demo.jw` - Dasar-dasar Object-Oriented Programming
-- `oop_enhanced_demo.jw` - Fitur OOP lanjutan (inheritance, polymorphism)
-
-### Lainnya
-
-- `working_features.jw` - Fitur yang sudah terimplementasi dan berfungsi
+**ALL EXAMPLES TESTED AND WORKING** - No compilation or runtime errors!
 - `language_comparison.jw` - Perbandingan dengan bahasa pemrograman lain
 - `localization_test.jw` - Penggunaan karakter khusus dan lokalisasi
 - `input_demo.jw` - Interaksi dengan input pengguna
